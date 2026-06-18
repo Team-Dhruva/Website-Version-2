@@ -16,6 +16,7 @@ import {
   orderBy 
 } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import type { FirebaseStorage } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -268,7 +269,11 @@ export default function AdminDashboardPage() {
   // Helper for uploading file to storage
   const uploadFile = (file: File, folder: string): Promise<string> => {
     return new Promise((resolve, reject) => {
-      const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
+      if (!storage) {
+        reject(new Error("Storage is not available. Enable Firebase Storage in the console."));
+        return;
+      }
+      const storageRef = ref(storage as FirebaseStorage, `${folder}/${Date.now()}_${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         "state_changed",
@@ -293,7 +298,7 @@ export default function AdminDashboardPage() {
   const handlePageLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginErr("");
-    const email = loginUsername.includes("@") ? loginUsername : `${loginUsername}@teamdhruva.org`;
+    const email = loginUsername.includes("@") ? loginUsername : `${loginUsername}@rvce.edu.in`;
     try {
       await signInWithEmailAndPassword(auth, email, loginPassword);
       setLoginUsername("");
@@ -652,14 +657,17 @@ export default function AdminDashboardPage() {
     );
   }
 
-  if (!currentUser.email?.endsWith("@teamdhruva.org")) {
+  const allowedDomain = (email: string) =>
+    email.endsWith("@rvce.edu.in") || email.endsWith("@gmail.com");
+
+  if (!currentUser.email || !allowedDomain(currentUser.email)) {
     return (
       <main className="page-scroll">
         <Breadcrumbs />
         <div className="vertical-page-container" style={{ minHeight: "90vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "24px", padding: "20px" }}>
           <h2 style={{ fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.1em", fontSize: "1.2rem", color: "var(--text-color)" }}>Unauthorized</h2>
           <p style={{ fontFamily: "monospace", fontSize: "0.85rem", color: "var(--text-muted)", maxWidth: "400px", textAlign: "center" }}>
-            Your account does not have admin privileges. Only @teamdhruva.org accounts can access the dashboard.
+            Your account does not have admin privileges. Only @rvce.edu.in or @gmail.com accounts can access the dashboard.
           </p>
           <button onClick={handleLogout} type="button" className="btn btn-primary" style={{ padding: "10px 24px", cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase" }}>
             Sign Out
@@ -745,7 +753,14 @@ export default function AdminDashboardPage() {
               <div className="card-content">
                 
                 {/* GALLERY FORM */}
-                {activeTab === "gallery" && (
+                {activeTab === "gallery" && !storage && (
+                  <div className="vertical-project-card" style={{ padding: "20px", textAlign: "center" }}>
+                    <p style={{ fontFamily: "monospace", color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                      Image uploads require Firebase Storage. Enable it in the Firebase Console.
+                    </p>
+                  </div>
+                )}
+                {activeTab === "gallery" && storage && (
                   <form onSubmit={handleGallerySubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Image File {editingGalleryId && "(Optional to replace)"}</label>
@@ -1048,7 +1063,14 @@ export default function AdminDashboardPage() {
                 )}
 
                 {/* MERCHANDISE FORM */}
-                {activeTab === "merchandise" && (
+                {activeTab === "merchandise" && !storage && (
+                  <div className="vertical-project-card" style={{ padding: "20px", textAlign: "center" }}>
+                    <p style={{ fontFamily: "monospace", color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                      Image uploads require Firebase Storage. Enable it in the Firebase Console.
+                    </p>
+                  </div>
+                )}
+                {activeTab === "merchandise" && storage && (
                   <form onSubmit={handleMerchSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Mockup Image File {editingMerchId && "(Optional to replace)"}</label>
