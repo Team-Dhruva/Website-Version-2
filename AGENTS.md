@@ -72,11 +72,11 @@
 - `/home/neo/club/scroll-snap-analysis.md`: Root cause analysis of mobile scroll snap.
 - `/home/neo/club/firebase.json`: Hosting config with cache-control headers, rewrites.
 
-## Session Updates (Jun 17, 2026)
-- Hamburger drawer: translucent background (rgba(10,10,12,0.7) + blur(50px))
-- Mobile header logo: reduced to 80px to match hamburger size
-- Created Breadcrumbs.tsx component (DM Mono, hierarchical path labels)
-- Added breadcrumbs to App.tsx and all 10 page files
-- Footer: proper 3-col grid, 64px gap, centered layout
-- Page padding: reduced hero, vertical page, about section for minimal header
-- #next scroll-margin-top: 360px → 120px
+## Session Updates (Jun 19, 2026)
+- All 116 gallery JPGs + 4 merch PNGs converted to WebP (gallery: 20M→11M, merch: 4.6M→252K)
+- `galleryData.ts` and `MerchandisePage.tsx` source references updated to `.webp`
+- APOD responses cached in `localStorage` — loads instantly on revisit
+- ISS model-viewer: removed restrictive camera-change clamp, widened zoom range (500m–5000m), removed `max-field-of-view`, added `touch-action: none` on `.hero-iss-container` so orbit/zoom works on mobile
+- Added `loading="lazy"` to gallery grid images and merch images
+- Added `preconnect` for `ajax.googleapis.com` (model-viewer CDN)
+- Deployed to Firebase Hosting
