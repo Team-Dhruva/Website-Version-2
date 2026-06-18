@@ -23,7 +23,7 @@
         ]
       },
       {
-        "source": "index.html",
+        "source": "**/*.@(html|json)",
         "headers": [
           {
             "key": "Cache-Control",
@@ -33,6 +33,14 @@
       }
     ],
     "rewrites": [
+      {
+        "source": "/robots.txt",
+        "destination": "/robots.txt"
+      },
+      {
+        "source": "/sitemap.xml",
+        "destination": "/sitemap.xml"
+      },
       {
         "source": "**",
         "destination": "/index.html"

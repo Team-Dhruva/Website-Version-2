@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://website-7f518.web.app/sitemap.xml
