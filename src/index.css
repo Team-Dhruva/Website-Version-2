@@ -62,6 +62,7 @@ html,body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-anchor: none;
   overscroll-behavior: none;
+  touch-action: pan-y;
   -webkit-tap-highlight-color: transparent;
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -287,6 +288,7 @@ html,body {
 .page-scroll {
   position: relative;
   z-index: 3;
+  touch-action: pan-y;
 }
 
 .page-scroll a,
@@ -2758,7 +2760,7 @@ html,body {
 
 .hamburger-icon {
   width: auto;
-  height: 22px;
+  height: 26px;
 }
 
 /* ── Mobile header logo (left side, visible only on mobile) ─────────────── */
@@ -2781,7 +2783,7 @@ html,body {
 }
 .mobile-header-constellation {
   width: auto;
-  height: 40px;
+  height: 48px;
 }
 
 .hamburger-overlay {
@@ -3189,6 +3191,7 @@ html,body {
 }
 :root:not(.dark) .hamburger-social-link {
   color: #000000;
+  opacity: 1;
 }
 
 @media (min-width: 769px) {
@@ -3200,7 +3203,8 @@ html,body {
   .hamburger-nav-btn,
   .hamburger-category-btn,
   .hamburger-sub-link,
-  .hamburger-sub-text {
+  .hamburger-sub-text,
+  .hamburger-social-link {
     font-size: 1rem;
   }
 }
@@ -3280,8 +3284,8 @@ html,body {
     padding: 14px 12px;
   }
   .header-logo-mobile svg {
-    width: 130px;
-    height: 60px;
+    width: 140px;
+    height: 64px;
   }
   .hamburger-two-col {
     padding: 12px 14px;
