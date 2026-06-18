@@ -88,6 +88,7 @@ html,body {
   padding: 24px 32px;
   pointer-events: none;
   background: transparent;
+  touch-action: manipulation;
 }
 
 .header-left {
@@ -2748,6 +2749,7 @@ html,body {
   transition: opacity 0.2s, color 0.3s ease;
   line-height: 1;
   pointer-events: auto;
+  touch-action: manipulation;
 }
 :root:not(.dark) .hamburger-btn {
   color: #000000;
@@ -2772,6 +2774,8 @@ html,body {
   color: #ffffff;
   opacity: 1;
   transition: opacity 0.2s, color 0.3s ease;
+  pointer-events: auto;
+  touch-action: manipulation;
 }
 :root:not(.dark) .header-logo-mobile {
   color: #000000;
