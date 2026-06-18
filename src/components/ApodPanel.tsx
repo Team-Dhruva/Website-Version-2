@@ -39,6 +39,17 @@ export default function ApodPanel() {
     setLoading(true);
     setError(false);
     setData(null);
+
+    const cached = localStorage.getItem(`apod_${d}`);
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        setData(parsed);
+        setLoading(false);
+        return;
+      } catch {}
+    }
+
     fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=${d}`)
       .then(r => {
         if (!r.ok) throw new Error("fetch failed");
@@ -47,6 +58,7 @@ export default function ApodPanel() {
       .then((res: ApodData) => {
         setData(res);
         setLoading(false);
+        try { localStorage.setItem(`apod_${d}`, JSON.stringify(res)); } catch {}
       })
       .catch(() => {
         if (d === todayStr()) {

@@ -173,7 +173,7 @@ export default function GalleryPage() {
           </button>
 
           <div className="gallery-lightbox-image-wrapper" onClick={(e) => e.stopPropagation()}>
-            <img src={selectedImage.src} alt={selectedImage.alt} className="gallery-lightbox-image" />
+            <img src={selectedImage.src} alt={selectedImage.alt} className="gallery-lightbox-image" loading="lazy" />
           </div>
         </div>
       )}

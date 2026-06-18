@@ -13,25 +13,25 @@ interface MerchItem {
 
 const MERCH_ITEMS: MerchItem[] = [
   {
-    src: "/merchandise/FFmockup.png",
+    src: "/merchandise/FFmockup.webp",
     title: "Hoodie Front View",
     category: "Hoodie",
     description: "Astrophysics logo coordinates printed in high-density silver ink on front chest."
   },
   {
-    src: "/merchandise/FBmockup.png",
+    src: "/merchandise/FBmockup.webp",
     title: "Hoodie Back View",
     category: "Hoodie",
     description: "Full back blueprint layout illustrating radio astronomy horn calculations and waveguide geometry."
   },
   {
-    src: "/merchandise/SHmockup.png",
+    src: "/merchandise/SHmockup.webp",
     title: "Hoodie Sleeve Design",
     category: "Hoodie",
     description: "LIGO gravitational wave frequency signal trace printed along the sleeve."
   },
   {
-    src: "/merchandise/Back element.png",
+    src: "/merchandise/Back element.webp",
     title: "Varsity Back Design Element",
     category: "Varsity Details",
     description: "Full spacetime curvature and coordinate vector layout for the back panel of the Varsity Jacket."

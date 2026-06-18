@@ -60,12 +60,6 @@ export default function App() {
                     el.addEventListener("load", () => {
                       el.style.opacity = "1";
                     });
-                    el.addEventListener("camera-change", () => {
-                      const orbit = el.getCameraOrbit();
-                      if (orbit && orbit.radius > 2000) {
-                        el.cameraOrbit = `${orbit.theta}rad ${orbit.phi}rad 2000m`;
-                      }
-                    });
                   }
                 }}
                 src="https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/i/ISS_stationary.glb"
@@ -75,8 +69,8 @@ export default function App() {
                 camera-orbit="-112.3deg 127.8deg 2400m"
                 camera-target="7.88m 11.16m 15.52m"
                 field-of-view="8deg"
-                min-camera-orbit="-180deg 0deg 1000m"
-                max-field-of-view="12deg"
+                min-camera-orbit="-180deg 10deg 500m"
+                max-camera-orbit="180deg 170deg 5000m"
                 style={{ width: "100%", height: "100%", opacity: 0, transition: "opacity 1s ease" }}
               />
             )}
