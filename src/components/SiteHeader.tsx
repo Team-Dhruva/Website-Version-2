@@ -72,7 +72,7 @@ export default function SiteHeader() {
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError("");
-    const email = username.includes("@") ? username : `${username}@teamdhruva.org`;
+    const email = username.includes("@") ? username : `${username}@rvce.edu.in`;
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setUsername("");
@@ -106,6 +106,15 @@ export default function SiteHeader() {
       setActiveSubmenu(null);
     }
   }, [path]);
+
+  useEffect(() => {
+    if (hamburgerOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [hamburgerOpen]);
 
   const toggle = (menu: "verticals" | "sponsorship" | "recruitment" | "join-us" | "admin") =>
     setActiveSubmenu(prev => (prev === menu ? null : menu));
