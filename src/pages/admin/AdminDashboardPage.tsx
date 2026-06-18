@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { auth, db, storage } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { 
   onAuthStateChanged, 
   signInWithEmailAndPassword, 
@@ -15,8 +15,7 @@ import {
   query, 
   orderBy 
 } from "firebase/firestore";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import type { FirebaseStorage } from "firebase/storage";
+import { uploadFileToCloudinary } from "../../cloudinary";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -266,32 +265,17 @@ export default function AdminDashboardPage() {
     setFetchingData(false);
   };
 
-  // Helper for uploading file to storage
-  const uploadFile = (file: File, folder: string): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      if (!storage) {
-        reject(new Error("Storage is not available. Enable Firebase Storage in the console."));
-        return;
-      }
-      const storageRef = ref(storage as FirebaseStorage, `${folder}/${Date.now()}_${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setUploadProgress(Math.round(progress));
-        },
-        (error) => {
-          setUploadProgress(null);
-          reject(error);
-        },
-        async () => {
-          const url = await getDownloadURL(uploadTask.snapshot.ref);
-          setUploadProgress(null);
-          resolve(url);
-        }
-      );
-    });
+  // Helper for uploading file to Cloudinary
+  const uploadFile = async (file: File, folder: string): Promise<string> => {
+    setUploadProgress(0);
+    try {
+      const url = await uploadFileToCloudinary(file, folder);
+      setUploadProgress(null);
+      return url;
+    } catch (e) {
+      setUploadProgress(null);
+      throw e;
+    }
   };
 
   // Local login handler (matches the logic in header form)
@@ -738,10 +722,7 @@ export default function AdminDashboardPage() {
         {/* Upload progress indicator */}
         {uploadProgress !== null && (
           <div style={{ pointerEvents: "auto", marginTop: "20px", padding: "16px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px" }}>
-            <p style={{ margin: "0 0 8px 0", fontSize: "0.8rem", fontFamily: "monospace", color: "var(--text-color)" }}>UPLOADING STORAGE ASSETS: {uploadProgress}%</p>
-            <div style={{ width: "100%", height: "4px", background: "rgba(0,0,0,0.05)", borderRadius: "2px", overflow: "hidden" }}>
-              <div style={{ width: `${uploadProgress}%`, height: "100%", background: "var(--text-color)" }} />
-            </div>
+            <p style={{ margin: "0", fontSize: "0.8rem", fontFamily: "monospace", color: "var(--text-color)" }}>Uploading to Cloudinary…</p>
           </div>
         )}
 
@@ -753,14 +734,7 @@ export default function AdminDashboardPage() {
               <div className="card-content">
                 
                 {/* GALLERY FORM */}
-                {activeTab === "gallery" && !storage && (
-                  <div className="vertical-project-card" style={{ padding: "20px", textAlign: "center" }}>
-                    <p style={{ fontFamily: "monospace", color: "var(--text-muted)", fontSize: "0.85rem" }}>
-                      Image uploads require Firebase Storage. Enable it in the Firebase Console.
-                    </p>
-                  </div>
-                )}
-                {activeTab === "gallery" && storage && (
+                {activeTab === "gallery" && (
                   <form onSubmit={handleGallerySubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Image File {editingGalleryId && "(Optional to replace)"}</label>
@@ -1063,14 +1037,7 @@ export default function AdminDashboardPage() {
                 )}
 
                 {/* MERCHANDISE FORM */}
-                {activeTab === "merchandise" && !storage && (
-                  <div className="vertical-project-card" style={{ padding: "20px", textAlign: "center" }}>
-                    <p style={{ fontFamily: "monospace", color: "var(--text-muted)", fontSize: "0.85rem" }}>
-                      Image uploads require Firebase Storage. Enable it in the Firebase Console.
-                    </p>
-                  </div>
-                )}
-                {activeTab === "merchandise" && storage && (
+                {activeTab === "merchandise" && (
                   <form onSubmit={handleMerchSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Mockup Image File {editingMerchId && "(Optional to replace)"}</label>
