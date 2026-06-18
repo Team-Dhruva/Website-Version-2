@@ -3056,6 +3056,20 @@ html,body {
 :root:not(.dark) .hamburger-category-divider {
   background: rgba(0, 0, 0, 0.08);
 }
+:root:not(.dark) .hamburger-login-input {
+  color: #000000;
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+:root:not(.dark) .hamburger-login-input::placeholder {
+  color: rgba(0, 0, 0, 0.35);
+}
+:root:not(.dark) .hamburger-login-input:focus {
+  border-color: rgba(0, 0, 0, 0.4);
+}
+:root:not(.dark) .hamburger-login-submit {
+  color: #000000;
+}
 
 /* Hamburger login form */
 .hamburger-login-form {
