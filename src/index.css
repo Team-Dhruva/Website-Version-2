@@ -60,6 +60,8 @@ html,body {
   width: 100%;
   background-color: var(--bg-color);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-anchor: none;
+  overscroll-behavior: none;
   touch-action: pan-y;
   -webkit-tap-highlight-color: transparent;
   color: var(--text-color);
