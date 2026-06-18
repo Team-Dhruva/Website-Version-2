@@ -79,4 +79,7 @@
 - ISS model-viewer: removed restrictive camera-change clamp, widened zoom range (500m–5000m), removed `max-field-of-view`, added `touch-action: none` on `.hero-iss-container` so orbit/zoom works on mobile
 - Added `loading="lazy"` to gallery grid images and merch images
 - Added `preconnect` for `ajax.googleapis.com` (model-viewer CDN)
+- Gallery images re-converted with `-metadata none` to fix 90° rotation (EXIF orientation stripped)
+- Hamburger font changed from JetBrains Mono → Inter (matches rest of page)
+- Removed `overflow-anchor: none` and `overscroll-behavior: none` from body — was preventing natural elastic scrolling on iOS, causing choppy scroll
 - Deployed to Firebase Hosting

@@ -2899,7 +2899,7 @@ html,body {
   background: none;
   border: none;
   cursor: pointer;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 400;
   font-size: 0.9rem;
   letter-spacing: 0.02em;
@@ -2928,7 +2928,7 @@ html,body {
 }
 .hamburger-nav-link,
 .hamburger-nav-btn {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 500;
   font-size: 0.9rem;
   letter-spacing: 0.04em;
@@ -2956,7 +2956,7 @@ html,body {
   cursor: pointer;
   text-align: left;
   padding: 8px 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 500;
   font-size: 0.9rem;
   letter-spacing: 0.04em;
@@ -2991,7 +2991,7 @@ html,body {
 }
 
 .hamburger-sub-link {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 500;
   font-size: 0.9rem;
   letter-spacing: 0.02em;
@@ -3009,7 +3009,7 @@ html,body {
 }
 
 .hamburger-sub-text {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 300;
   font-size: 0.85rem;
   letter-spacing: 0;
@@ -3175,7 +3175,7 @@ html,body {
 }
 
 .hamburger-social-link {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 500;
   font-size: 0.9rem;
   letter-spacing: 0.04em;
