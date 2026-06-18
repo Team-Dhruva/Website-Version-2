@@ -422,7 +422,6 @@ html,body {
   height: 100%;
   z-index: 1;
   pointer-events: auto;
-  touch-action: none;
 }
 
 @media (max-width: 1024px) {
@@ -2901,7 +2900,7 @@ html,body {
   cursor: pointer;
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 400;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   letter-spacing: 0.02em;
   color: #ffffff;
   opacity: 0.7;
@@ -2930,7 +2929,7 @@ html,body {
 .hamburger-nav-btn {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   letter-spacing: 0.04em;
   color: #ffffff;
   text-decoration: none;
@@ -2958,7 +2957,7 @@ html,body {
   padding: 8px 0;
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   letter-spacing: 0.04em;
   color: #ffffff;
   opacity: 0.85;
@@ -2993,7 +2992,7 @@ html,body {
 .hamburger-sub-link {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   letter-spacing: 0.02em;
   color: #ffffff;
   text-decoration: none;
@@ -3011,7 +3010,7 @@ html,body {
 .hamburger-sub-text {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 300;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   letter-spacing: 0;
   color: #ffffff;
   line-height: 1.5;
@@ -3088,7 +3087,7 @@ html,body {
   border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 8px 12px;
   font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   color: #ffffff;
   outline: none;
   border-radius: 2px;
@@ -3109,7 +3108,7 @@ html,body {
   color: #ffffff;
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 300;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   cursor: pointer;
   transition: all 0.2s ease;
   line-height: 1;
@@ -3148,7 +3147,7 @@ html,body {
   cursor: pointer;
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 300;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   letter-spacing: 0;
   color: #ffffff;
   opacity: 0.5;
@@ -3177,7 +3176,7 @@ html,body {
 .hamburger-social-link {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   letter-spacing: 0.04em;
   color: #ffffff;
   text-decoration: none;
@@ -3208,7 +3207,7 @@ html,body {
   .hamburger-theme-toggle,
   .hamburger-login-input,
   .hamburger-login-submit {
-    font-size: 1rem;
+    font-size: 0.85rem;
   }
 }
 
