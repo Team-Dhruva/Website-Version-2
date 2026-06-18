@@ -20,7 +20,7 @@ export default function BlogPage() {
         });
         if (list.length > 0) {
           list.sort((a, b) => b.id - a.id);
-          setBlogsList(list);
+          setBlogsList([...list, ...BLOGS]);
         }
       } catch (err) {
         console.error("Error loading blogs from Firestore, using static fallback:", err);

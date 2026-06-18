@@ -50,7 +50,7 @@ export default function MerchandisePage() {
           list.push(docSnap.data() as MerchItem);
         });
         if (list.length > 0) {
-          setMerchItems(list);
+          setMerchItems([...list, ...MERCH_ITEMS]);
         }
       } catch (err) {
         console.error("Error loading merchandise from Firestore, using static fallback:", err);

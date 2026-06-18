@@ -18,7 +18,7 @@ export default function EventsPage() {
           list.push(docSnap.data() as EventDetail);
         });
         if (list.length > 0) {
-          setEventsList(list);
+          setEventsList([...list, ...EVENTS]);
         }
       } catch (err) {
         console.error("Error loading events from Firestore, using static fallback:", err);
