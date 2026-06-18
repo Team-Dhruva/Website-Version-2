@@ -399,7 +399,6 @@ html,body {
   padding: 120px 96px 80px;
   position: relative;
   min-height: 100svh;
-  min-height: 100dvh;
 }
 
 /* Invisible overlay covering the bottom of the hero (where the title sits).
