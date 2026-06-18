@@ -37,11 +37,11 @@ const POOL = [
 // [2,0,4,1,5,3] = R first, then ð, V, ħ, α, μ last  (not left-to-right)
 const SETTLE_ORDER = [2, 0, 4, 1, 5, 3];
 
-const FAST_MS      = 75;   // ms between frames during chaos
-const NEAR_MS      = 105;  // ms during near-miss (slightly slower = more tension)
-const DECEL_MAX    = 430;  // ms at the slowest point of decel
-const SETTLE_BASE  = 1500; // ms when the first char begins settling
-const SETTLE_STEP  = 380;  // ms stagger between each char's settlement start
+const FAST_MS      = 110;  // ms between frames during chaos
+const NEAR_MS      = 140;  // ms during near-miss (slightly slower = more tension)
+const DECEL_MAX    = 400;  // ms at the slowest point of decel
+const SETTLE_BASE  = 1600; // ms when the first char begins settling
+const SETTLE_STEP  = 380;  // ms stagger between each character's settlement start
 const NEAR_LEAD    = 380;  // ms before settle to switch to near-miss pool
 const DECEL_DUR    = 540;  // ms of deceleration before hard lock
 

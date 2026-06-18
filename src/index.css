@@ -470,8 +470,9 @@ html,body {
 /* Each individual scrambling character */
 .scramble-char {
   display: inline-block;
-  min-width: 0.62em; /* prevent layout jitter as glyphs vary in width */
+  width: 0.65em;
   text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 
 .hero-title {
@@ -482,6 +483,7 @@ html,body {
   line-height: 1.1;
   color: #18181b;
   letter-spacing: -0.02em;
+  overflow: hidden;
 }
 
 .hero-subtitle {
@@ -2802,8 +2804,8 @@ html,body {
   top: 0;
   right: 0;
   bottom: 0;
-  width: 400px;
-  max-width: 90vw;
+  width: 460px;
+  max-width: 92vw;
   z-index: 201;
   background: rgba(10, 10, 12, 0.7);
   backdrop-filter: blur(50px) saturate(140%);
@@ -3193,15 +3195,15 @@ html,body {
 
 @media (min-width: 769px) {
   .hamburger-drawer {
-    width: 560px;
-    max-width: 80vw;
+    width: 520px;
+    max-width: 70vw;
   }
   .hamburger-nav-link,
   .hamburger-nav-btn,
   .hamburger-category-btn,
   .hamburger-sub-link,
   .hamburger-sub-text {
-    font-size: 0.75rem;
+    font-size: 0.82rem;
   }
 }
 

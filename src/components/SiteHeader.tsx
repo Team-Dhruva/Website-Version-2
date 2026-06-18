@@ -109,11 +109,21 @@ export default function SiteHeader() {
 
   useEffect(() => {
     if (hamburgerOpen) {
-      document.body.style.overflow = "hidden";
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
     } else {
-      document.body.style.overflow = "";
+      const top = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      if (top) {
+        window.scrollTo(0, parseInt(top, 10) * -1);
+      }
     }
-    return () => { document.body.style.overflow = ""; };
   }, [hamburgerOpen]);
 
   const toggle = (menu: "verticals" | "sponsorship" | "recruitment" | "join-us" | "admin") =>
