@@ -62,7 +62,6 @@ html,body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-anchor: none;
   overscroll-behavior: none;
-  touch-action: pan-y;
   -webkit-tap-highlight-color: transparent;
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -288,7 +287,6 @@ html,body {
 .page-scroll {
   position: relative;
   z-index: 3;
-  touch-action: pan-y;
 }
 
 .page-scroll a,
@@ -310,7 +308,6 @@ html,body {
   align-items: center;
   justify-content: center;
   padding: 80px 48px;
-  touch-action: pan-y;
 }
 
 .section-inner {
@@ -400,7 +397,6 @@ html,body {
   align-items: flex-end;
   padding: 120px 96px 80px;
   position: relative;
-  touch-action: pan-y;
   min-height: 100svh;
   min-height: 100dvh;
 }
@@ -2872,24 +2868,6 @@ html,body {
   min-width: 0;
 }
 
-.hamburger-home-link {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
-  margin-bottom: 12px;
-  margin-top: -4px;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-}
-.hamburger-home-link:hover {
-  opacity: 1;
-}
-.hamburger-constellation-logo {
-  width: auto;
-  height: 36px;
-}
-
 .hamburger-divider-col {
   width: 1px;
   align-self: stretch;
@@ -3196,9 +3174,9 @@ html,body {
 
 .hamburger-social-link {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-weight: 400;
-  font-size: 0.78rem;
-  letter-spacing: 0.02em;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
   color: #ffffff;
   text-decoration: none;
   opacity: 0.7;
