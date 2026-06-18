@@ -2804,8 +2804,8 @@ html,body {
   top: 0;
   right: 0;
   bottom: 0;
-  width: 460px;
-  max-width: 92vw;
+  width: 520px;
+  max-width: 95vw;
   z-index: 201;
   background: rgba(10, 10, 12, 0.7);
   backdrop-filter: blur(50px) saturate(140%);
@@ -2872,6 +2872,24 @@ html,body {
   min-width: 0;
 }
 
+.hamburger-home-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 12px;
+  margin-top: -4px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.hamburger-home-link:hover {
+  opacity: 1;
+}
+.hamburger-constellation-logo {
+  width: auto;
+  height: 36px;
+}
+
 .hamburger-divider-col {
   width: 1px;
   align-self: stretch;
@@ -2903,13 +2921,13 @@ html,body {
   border: none;
   cursor: pointer;
   font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-weight: 300;
-  font-size: 0.75rem;
+  font-weight: 400;
+  font-size: 0.9rem;
   letter-spacing: 0.02em;
   color: #ffffff;
   opacity: 0.7;
   line-height: 1.2;
-  padding: 8px 0;
+  padding: 10px 0;
   transition: opacity 0.2s;
   text-align: right;
   white-space: nowrap;
@@ -2932,12 +2950,12 @@ html,body {
 .hamburger-nav-link {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 500;
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   letter-spacing: 0.04em;
   color: #ffffff;
   text-decoration: none;
   line-height: 1.2;
-  padding: 8px 0;
+  padding: 10px 0;
   transition: opacity 0.2s;
   opacity: 0.85;
   white-space: nowrap;
@@ -2957,10 +2975,10 @@ html,body {
   border: none;
   cursor: pointer;
   text-align: left;
-  padding: 6px 0;
+  padding: 8px 0;
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 500;
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   letter-spacing: 0.04em;
   color: #ffffff;
   opacity: 0.85;
@@ -2995,12 +3013,12 @@ html,body {
 .hamburger-sub-link {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 500;
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   letter-spacing: 0.02em;
   color: #ffffff;
   text-decoration: none;
   line-height: 1.3;
-  padding: 6px 0;
+  padding: 8px 0;
   opacity: 0.6;
   transition: opacity 0.18s;
   white-space: nowrap;
@@ -3013,7 +3031,7 @@ html,body {
 .hamburger-sub-text {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 300;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   letter-spacing: 0;
   color: #ffffff;
   line-height: 1.5;
@@ -3040,10 +3058,12 @@ html,body {
 :root:not(.dark) .hamburger-nav-btn,
 :root:not(.dark) .hamburger-category-btn {
   color: #000000;
+  opacity: 1;
 }
 :root:not(.dark) .hamburger-sub-link,
 :root:not(.dark) .hamburger-sub-text {
   color: #000000;
+  opacity: 0.85;
 }
 :root:not(.dark) .hamburger-close-btn,
 :root:not(.dark) .hamburger-theme-toggle {
@@ -3195,15 +3215,15 @@ html,body {
 
 @media (min-width: 769px) {
   .hamburger-drawer {
-    width: 520px;
-    max-width: 70vw;
+    width: 600px;
+    max-width: 80vw;
   }
   .hamburger-nav-link,
   .hamburger-nav-btn,
   .hamburger-category-btn,
   .hamburger-sub-link,
   .hamburger-sub-text {
-    font-size: 0.82rem;
+    font-size: 1rem;
   }
 }
 

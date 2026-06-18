@@ -200,6 +200,16 @@ export default function SiteHeader() {
 
             <div className="hamburger-two-col">
               <div className="hamburger-left-col">
+                <Link to="/" className="hamburger-home-link" onClick={closeHamburger} aria-label="Home">
+                  <svg viewBox="0 0 250 180" className="hamburger-constellation-logo" fill="currentColor">
+                    <circle cx="20"  cy="40"  r="7" />
+                    <circle cx="75"  cy="48"  r="7" />
+                    <circle cx="122" cy="92"  r="7" />
+                    <circle cx="119" cy="128" r="7" />
+                    <circle cx="172" cy="149" r="7" />
+                    <circle cx="191" cy="110" r="7" />
+                  </svg>
+                </Link>
                 {NAV_ITEMS.filter(item => !["Verticals", "Recruitment", "Sponsorship", "Join Us"].includes(item.label)).map(item => {
                   const isActive = path === item.href || (item.href !== "/" && path.startsWith(item.href));
                   if (item.external) {

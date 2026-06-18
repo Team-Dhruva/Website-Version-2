@@ -11,13 +11,6 @@ export default function App() {
   const onTitleComplete = useCallback(() => setTitleDone(true), []);
   const modelViewerRef = useRef<any>(null);
   const [loadModel, setLoadModel] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
-  useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
 
   // Delay ISS 3D model loading by 1.2s to prioritize page render and responsiveness
   useEffect(() => {
@@ -67,15 +60,23 @@ export default function App() {
                     el.addEventListener("load", () => {
                       el.style.opacity = "1";
                     });
+                    el.addEventListener("camera-change", () => {
+                      const orbit = el.getCameraOrbit();
+                      if (orbit && orbit.radius > 2000) {
+                        el.cameraOrbit = `${orbit.theta}rad ${orbit.phi}rad 2000m`;
+                      }
+                    });
                   }
                 }}
                 src="https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/i/ISS_stationary.glb"
                 alt="International Space Station 3D Model"
                 camera-controls
-                interaction-prompt={isMobile ? "auto" : "none"}
+                interaction-prompt="none"
                 camera-orbit="-112.3deg 127.8deg 2400m"
                 camera-target="7.88m 11.16m 15.52m"
                 field-of-view="8deg"
+                min-camera-orbit="-180deg 0deg 1000m"
+                max-field-of-view="12deg"
                 style={{ width: "100%", height: "100%", opacity: 0, transition: "opacity 1s ease" }}
               />
             )}
