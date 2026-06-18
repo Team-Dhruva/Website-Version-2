@@ -75,7 +75,7 @@ export default function GalleryPage() {
           list.push(docSnap.data() as GalleryImage);
         });
         if (list.length > 0) {
-          setImages(list);
+          setImages([...list, ...GALLERY_IMAGES]);
         }
       } catch (err) {
         console.error("Error loading gallery from Firestore, using static fallback:", err);
