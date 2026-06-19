@@ -1,0 +1,38 @@
+🚀 Team Dhruva — Website Update 🚀
+
+The new club website is LIVE and fully functional at:
+https://website-7f518.web.app
+
+What it can do:
+• ISS 3D model you can rotate and zoom
+• Gallery with all our event photos and videos
+• Blog section with multi-chapter articles
+• Events page listing past/future talks
+• Merchandise store
+• Team directory by batch
+• Recruitment listings per epoch
+• Projects under Radio, Optical, Data-Driven, Research verticals
+• Indian Astrophysics article reader
+• APOD (NASA's Astronomy Picture of the Day)
+• Full CMS admin dashboard
+
+The admin login is at /admin on the website.
+Password: sunisactuallycalledsol
+(enter any email or just "admin" — it'll work)
+
+From the admin panel you can:
+→ Upload gallery images/videos
+→ Create/edit blog posts with markdown + embedded images
+→ Manage events, merchandise, projects, team, recruitment
+→ Write Indian Astrophysics articles
+→ Upload images/videos directly in chapter editors using the "+ Upload Image/Video" button — supports ![[url]] syntax like Obsidian
+
+Everything Firebase (hosting, database, auth) and Cloudinary (image/video storage) is under dhruvarvceofficial@gmail.com.
+
+Two things left for the admin to do:
+1. Take down the old Svelte site at teamdhruva.com
+2. Add CNAME record in Cloudflare DNS (temp → website-7f518.web.app) and configure the custom domain in Firebase Hosting console
+
+We should ship this with the official domain (teamdhruva.com) ASAP. The site is fully ready — changes can be made via the admin dashboard while it's live, no downtime needed.
+
+Let's get the domain sorted and launch! 💫
