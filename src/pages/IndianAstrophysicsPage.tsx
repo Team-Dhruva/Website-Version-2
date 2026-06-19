@@ -142,15 +142,9 @@ export default function IndianAstrophysicsPage() {
     }
   };
 
-  // Markdown parser supporting figure captions and tables
+  // Markdown parser supporting images, videos, tables, quotes, Obsidian syntax
   const renderArticleContent = (md: string) => {
-    let cleaned = md.replace(/<video[^>]*>([\s\S]*?)<\/video>/gi, "");
-    cleaned = cleaned.replace(/<img[^>]*>/gi, "");
-    cleaned = cleaned.replace(/!\[[^\]]*\]\([^)]*\)/gi, "");
-    cleaned = cleaned.replace(/<div[^>]*>/gi, "");
-    cleaned = cleaned.replace(/<\/div>/gi, "");
-    cleaned = cleaned.replace(/<br\s*\/?>/gi, "");
-
+    let cleaned = md.replace(/<div[^>]*>/gi, "").replace(/<\/div>/gi, "").replace(/<br\s*\/?>/gi, "");
     const lines = cleaned.replace(/\r\n/g, "\n").split("\n");
     
     const elements: React.ReactNode[] = [];
@@ -243,6 +237,42 @@ export default function IndianAstrophysicsPage() {
       // Empty line
       if (!trimmed) {
         flushAll(idx);
+        return;
+      }
+
+      // Image/video line
+      const imgLineMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+      const obsidianMatch = trimmed.match(/^!\[\[([^\]]+)(?:\|([^\]]*))?\]\]$/);
+      const htmlMediaMatch = trimmed.match(/^<(img|video)[^>]+src="([^"]+)"[^>]*>$/i);
+      if (imgLineMatch) {
+        flushAll(idx);
+        const [_, alt, src] = imgLineMatch;
+        if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
+          elements.push(<div key={`v-${idx}`} className="blog-reader-video-wrapper"><video src={src} controls style={{maxWidth:"100%", borderRadius:"6px"}} /></div>);
+        } else {
+          elements.push(<figure key={`i-${idx}`} className="blog-reader-figure"><img src={src} alt={alt} loading="lazy" style={{maxWidth:"100%", borderRadius:"6px"}} /></figure>);
+        }
+        return;
+      }
+      if (obsidianMatch) {
+        flushAll(idx);
+        const src = obsidianMatch[1];
+        const alt = obsidianMatch[2] || "";
+        if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
+          elements.push(<div key={`v-${idx}`} className="blog-reader-video-wrapper"><video src={src} controls style={{maxWidth:"100%", borderRadius:"6px"}} /></div>);
+        } else {
+          elements.push(<figure key={`i-${idx}`} className="blog-reader-figure"><img src={src} alt={alt} loading="lazy" style={{maxWidth:"100%", borderRadius:"6px"}} /></figure>);
+        }
+        return;
+      }
+      if (htmlMediaMatch) {
+        flushAll(idx);
+        const [_, tag, src] = htmlMediaMatch;
+        if (tag === "video") {
+          elements.push(<div key={`v-${idx}`} className="blog-reader-video-wrapper"><video src={src} controls style={{maxWidth:"100%", borderRadius:"6px"}} /></div>);
+        } else {
+          elements.push(<figure key={`i-${idx}`} className="blog-reader-figure"><img src={src} alt="" loading="lazy" style={{maxWidth:"100%", borderRadius:"6px"}} /></figure>);
+        }
         return;
       }
 
@@ -356,7 +386,7 @@ export default function IndianAstrophysicsPage() {
 
   const parseInline = (text: string): React.ReactNode[] => {
     const tokens: React.ReactNode[] = [];
-    const regex = /(\*\*.*?\*\*|\*.*?\*|\[.*?\]\(.*?\))/g;
+    const regex = /(\*\*.*?\*\*|\*.*?\*|!\[\[.*?\]\]|!\[.*?\]\(.*?\)|\[.*?\]\(.*?\))/g;
     const parts = text.split(regex);
 
     parts.forEach((part, index) => {
@@ -364,6 +394,26 @@ export default function IndianAstrophysicsPage() {
         tokens.push(<strong key={index}>{part.slice(2, -2)}</strong>);
       } else if (part.startsWith("*") && part.endsWith("*")) {
         tokens.push(<em key={index}>{part.slice(1, -1)}</em>);
+      } else if (part.startsWith("![[") && part.endsWith("]]")) {
+        const inner = part.slice(3, -2);
+        const [src, alt] = inner.includes("|") ? inner.split("|") : [inner, ""];
+        if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
+          tokens.push(<video key={index} src={src} controls style={{maxWidth:"100%", borderRadius:"6px", margin:"8px 0"}} />);
+        } else {
+          tokens.push(<img key={index} src={src} alt={alt} loading="lazy" style={{maxWidth:"100%", borderRadius:"6px", margin:"8px 0"}} />);
+        }
+      } else if (part.startsWith("![") && part.includes("](")) {
+        const imgMatch = part.match(/!\[(.*?)\]\((.*?)\)/);
+        if (imgMatch) {
+          const [_, alt, src] = imgMatch;
+          if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
+            tokens.push(<video key={index} src={src} controls style={{maxWidth:"100%", borderRadius:"6px", margin:"8px 0"}} />);
+          } else {
+            tokens.push(<img key={index} src={src} alt={alt} loading="lazy" style={{maxWidth:"100%", borderRadius:"6px", margin:"8px 0"}} />);
+          }
+        } else {
+          tokens.push(part);
+        }
       } else if (part.startsWith("[") && part.includes("](")) {
         const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
         if (linkMatch) {

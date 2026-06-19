@@ -150,6 +150,12 @@ export default function GalleryPage() {
                   ) : (
                     <img src={img.src} alt={img.alt} className="gallery-grid-image" loading="lazy" />
                   )}
+                  <div className="gallery-item-overlay">
+                    <span className="gallery-overlay-alt">{img.alt}</span>
+                    {img.description && (
+                      <span className="gallery-overlay-desc">{img.description}</span>
+                    )}
+                  </div>
                   {subNum && (
                     <span className="gallery-item-number">{subNum}</span>
                   )}
@@ -189,6 +195,12 @@ export default function GalleryPage() {
             ) : (
               <img src={selectedImage.src} alt={selectedImage.alt} className="gallery-lightbox-image" loading="lazy" />
             )}
+            <div className="gallery-lightbox-caption">
+              <span className="gallery-lightbox-alt">{selectedImage.alt}</span>
+              {selectedImage.description && (
+                <span className="gallery-lightbox-desc">{selectedImage.description}</span>
+              )}
+            </div>
           </div>
         </div>
       )}

@@ -1166,11 +1166,17 @@ export default function AdminDashboardPage() {
                         />
                         <textarea 
                           rows={6}
+                          id="blogChMd"
                           placeholder="# Markdown Title\n\nChapter body content here..."
                           style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "monospace", fontSize: "0.78rem" }}
                           value={newChMarkdown}
                           onChange={e => setNewChMarkdown(e.target.value)}
                         />
+                        <div style={{display:"flex", gap:"8px", alignItems:"center"}}>
+                          <button type="button" onClick={() => document.getElementById("blogChUpload")?.click()} className="btn btn-ghost" style={{padding:"6px 12px", fontSize:"0.7rem", cursor:"pointer"}}>+ Upload Image/Video</button>
+                          <span style={{fontSize:"0.65rem", color:"var(--text-muted)"}}>Inserts as ![[url]]</span>
+                        </div>
+                        <input type="file" id="blogChUpload" accept="image/*,video/*" style={{display:"none"}} onChange={async (e) => { const f = e.target.files?.[0]; if (!f) return; try { const url = await uploadFile(f, "chapters"); const ta = document.getElementById("blogChMd") as HTMLTextAreaElement; if (ta) { const start = ta.selectionStart; const end = ta.selectionEnd; const before = newChMarkdown.slice(0, start); const after = newChMarkdown.slice(end); const insert = `![[${url}]]`; setNewChMarkdown(before + insert + after); setTimeout(() => { ta.focus(); ta.selectionStart = ta.selectionEnd = start + insert.length; }, 0); } } catch (err) { alert("Upload failed"); } e.target.value = ""; }} />
                         {editingChIndex !== null ? (
                           <div style={{ display: "flex", gap: "10px" }}>
                             <button type="button" onClick={saveEditedChapter} className="btn btn-primary" style={{ padding: "8px 16px", fontSize: "0.75rem", cursor: "pointer" }}>Save Chapter</button>
@@ -1444,6 +1450,11 @@ export default function AdminDashboardPage() {
                       <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1px solid var(--border-color)", paddingTop: "12px" }}>
                         <input type="text" placeholder="Chapter Title" className="login-input" style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontSize: "0.8rem" }} id="projChTitle" />
                         <textarea rows={4} placeholder="# Markdown\n\nContent..." style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "monospace", fontSize: "0.78rem" }} id="projChMd" />
+                        <div style={{display:"flex", gap:"8px", alignItems:"center"}}>
+                          <button type="button" onClick={() => document.getElementById("projChUpload")?.click()} className="btn btn-ghost" style={{padding:"6px 12px", fontSize:"0.7rem", cursor:"pointer"}}>+ Upload Image/Video</button>
+                          <span style={{fontSize:"0.65rem", color:"var(--text-muted)"}}>Inserts ![[url]]</span>
+                        </div>
+                        <input type="file" id="projChUpload" accept="image/*,video/*" style={{display:"none"}} onChange={async (e) => { const f = e.target.files?.[0]; if (!f) return; try { const url = await uploadFile(f, "chapters"); const ta = document.getElementById("projChMd") as HTMLTextAreaElement; if (ta) { const start = ta.selectionStart; const end = ta.selectionEnd; const val = ta.value; const before = val.slice(0, start); const after = val.slice(end); const insert = `![[${url}]]`; ta.value = before + insert + after; setTimeout(() => { ta.focus(); ta.selectionStart = ta.selectionEnd = start + insert.length; }, 0); } } catch (err) { alert("Upload failed"); } e.target.value = ""; }} />
                         <button type="button" onClick={() => { const title = (document.getElementById("projChTitle") as HTMLInputElement)?.value; const md = (document.getElementById("projChMd") as HTMLTextAreaElement)?.value; if (!title) return; setProjChapters([...projChapters, { id: projChapters.length + 1, title, markdown: md }]); (document.getElementById("projChTitle") as HTMLInputElement).value = ""; (document.getElementById("projChMd") as HTMLTextAreaElement).value = ""; }} className="btn btn-ghost" style={{ padding: "8px 16px", fontSize: "0.75rem", alignSelf: "flex-start", cursor: "pointer" }}>+ Add Chapter</button>
                       </div>
                     </div>
@@ -1570,6 +1581,11 @@ export default function AdminDashboardPage() {
                       <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1px solid var(--border-color)", paddingTop: "12px" }}>
                         <input type="text" placeholder="Chapter Title" className="login-input" style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontSize: "0.8rem" }} id="iaChTitle" />
                         <textarea rows={4} placeholder="# Markdown\n\nContent..." style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "monospace", fontSize: "0.78rem" }} id="iaChMd" />
+                        <div style={{display:"flex", gap:"8px", alignItems:"center"}}>
+                          <button type="button" onClick={() => document.getElementById("iaChUpload")?.click()} className="btn btn-ghost" style={{padding:"6px 12px", fontSize:"0.7rem", cursor:"pointer"}}>+ Upload Image/Video</button>
+                          <span style={{fontSize:"0.65rem", color:"var(--text-muted)"}}>Inserts ![[url]]</span>
+                        </div>
+                        <input type="file" id="iaChUpload" accept="image/*,video/*" style={{display:"none"}} onChange={async (e) => { const f = e.target.files?.[0]; if (!f) return; try { const url = await uploadFile(f, "chapters"); const ta = document.getElementById("iaChMd") as HTMLTextAreaElement; if (ta) { const start = ta.selectionStart; const end = ta.selectionEnd; const val = ta.value; const before = val.slice(0, start); const after = val.slice(end); const insert = `![[${url}]]`; ta.value = before + insert + after; setTimeout(() => { ta.focus(); ta.selectionStart = ta.selectionEnd = start + insert.length; }, 0); } } catch (err) { alert("Upload failed"); } e.target.value = ""; }} />
                         <button type="button" onClick={() => { const title = (document.getElementById("iaChTitle") as HTMLInputElement)?.value; const md = (document.getElementById("iaChMd") as HTMLTextAreaElement)?.value; if (!title) return; setIaChapters([...iaChapters, { id: iaChapters.length + 1, title, markdown: md }]); (document.getElementById("iaChTitle") as HTMLInputElement).value = ""; (document.getElementById("iaChMd") as HTMLTextAreaElement).value = ""; }} className="btn btn-ghost" style={{ padding: "8px 16px", fontSize: "0.75rem", alignSelf: "flex-start", cursor: "pointer" }}>+ Add Chapter</button>
                       </div>
                     </div>

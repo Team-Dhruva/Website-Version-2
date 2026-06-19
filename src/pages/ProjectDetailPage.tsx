@@ -188,8 +188,7 @@ export default function ProjectDetailPage() {
 }
 
 function renderMarkdown(md: string) {
-  const cleaned = md.replace(/!\[[^\]]*\]\([^)]*\)/gi, "").replace(/<img[^>]*>/gi, "");
-  const lines = cleaned.replace(/\r\n/g, "\n").split("\n");
+  const lines = md.replace(/\r\n/g, "\n").split("\n");
   const elements: React.ReactNode[] = [];
   let para: string[] = [];
   let list: string[] = [];
@@ -204,6 +203,43 @@ function renderMarkdown(md: string) {
   lines.forEach((line, idx) => {
     const t = line.trim();
     if (!t) { flushAll(idx); return; }
+
+    // Image/video line
+    const imgMatch = t.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    const obsMatch = t.match(/^!\[\[([^\]]+)(?:\|([^\]]*))?\]\]$/);
+    const htmlMatch = t.match(/^<(img|video)[^>]+src="([^"]+)"[^>]*>$/i);
+    if (imgMatch) {
+      flushAll(idx);
+      const [_, alt, src] = imgMatch;
+      if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
+        elements.push(<div key={`v-${idx}`} className="blog-reader-video-wrapper"><video src={src} controls style={{maxWidth:"100%", borderRadius:"6px"}} /></div>);
+      } else {
+        elements.push(<figure key={`i-${idx}`} className="blog-reader-figure"><img src={src} alt={alt} loading="lazy" style={{maxWidth:"100%", borderRadius:"6px"}} /></figure>);
+      }
+      return;
+    }
+    if (obsMatch) {
+      flushAll(idx);
+      const src = obsMatch[1];
+      const alt = obsMatch[2] || "";
+      if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
+        elements.push(<div key={`v-${idx}`} className="blog-reader-video-wrapper"><video src={src} controls style={{maxWidth:"100%", borderRadius:"6px"}} /></div>);
+      } else {
+        elements.push(<figure key={`i-${idx}`} className="blog-reader-figure"><img src={src} alt={alt} loading="lazy" style={{maxWidth:"100%", borderRadius:"6px"}} /></figure>);
+      }
+      return;
+    }
+    if (htmlMatch) {
+      flushAll(idx);
+      const [_, tag, src] = htmlMatch;
+      if (tag === "video") {
+        elements.push(<div key={`v-${idx}`} className="blog-reader-video-wrapper"><video src={src} controls style={{maxWidth:"100%", borderRadius:"6px"}} /></div>);
+      } else {
+        elements.push(<figure key={`i-${idx}`} className="blog-reader-figure"><img src={src} alt="" loading="lazy" style={{maxWidth:"100%", borderRadius:"6px"}} /></figure>);
+      }
+      return;
+    }
+
     if (t.startsWith("#")) {
       flushAll(idx);
       const m = t.match(/^(#{1,6})\s+(.*)$/);
@@ -225,11 +261,29 @@ function renderMarkdown(md: string) {
 
 function parseInline(text: string): React.ReactNode[] {
   const tokens: React.ReactNode[] = [];
-  const parts = text.split(/(\*\*.*?\*\*|\*.*?\*|\[.*?\]\(.*?\))/g);
+  const parts = text.split(/(\*\*.*?\*\*|\*.*?\*|!\[\[.*?\]\]|!\[.*?\]\(.*?\)|\[.*?\]\(.*?\))/g);
   parts.forEach((part, i) => {
     if (part.startsWith("**") && part.endsWith("**")) tokens.push(<strong key={i}>{part.slice(2, -2)}</strong>);
     else if (part.startsWith("*") && part.endsWith("*")) tokens.push(<em key={i}>{part.slice(1, -1)}</em>);
-    else if (part.startsWith("[") && part.includes("](")) {
+    else if (part.startsWith("![[") && part.endsWith("]]")) {
+      const inner = part.slice(3, -2);
+      const [src, alt] = inner.includes("|") ? inner.split("|") : [inner, ""];
+      if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
+        tokens.push(<video key={i} src={src} controls style={{maxWidth:"100%", borderRadius:"6px", margin:"8px 0"}} />);
+      } else {
+        tokens.push(<img key={i} src={src} alt={alt} loading="lazy" style={{maxWidth:"100%", borderRadius:"6px", margin:"8px 0"}} />);
+      }
+    } else if (part.startsWith("![") && part.includes("](")) {
+      const m = part.match(/!\[(.*?)\]\((.*?)\)/);
+      if (m) {
+        const [_, alt, src] = m;
+        if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
+          tokens.push(<video key={i} src={src} controls style={{maxWidth:"100%", borderRadius:"6px", margin:"8px 0"}} />);
+        } else {
+          tokens.push(<img key={i} src={src} alt={alt} loading="lazy" style={{maxWidth:"100%", borderRadius:"6px", margin:"8px 0"}} />);
+        }
+      } else tokens.push(part);
+    } else if (part.startsWith("[") && part.includes("](")) {
       const m = part.match(/\[(.*?)\]\((.*?)\)/);
       if (m) tokens.push(<a key={i} href={m[2]} target="_blank" rel="noopener noreferrer" className="blog-content-link">{m[1]}</a>);
       else tokens.push(part);
