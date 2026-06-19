@@ -2135,6 +2135,112 @@ html,body {
   color: var(--text-muted);
 }
 
+/* ── Header nav dark overrides ───────────────────────────────────────────── */
+.dark .side-nav-link,
+.dark .nav-btn,
+.dark .submenu-link,
+.dark .submenu-text-wrap,
+.dark .submenu-email-link {
+  color: var(--text-color);
+}
+.dark .side-nav-link:hover,
+.dark .nav-btn:hover,
+.dark .submenu-link:hover {
+  color: var(--text-muted);
+}
+
+/* ── Hero section dark overrides ─────────────────────────────────────────── */
+.dark .hero-eyebrow {
+  color: var(--text-muted);
+}
+.dark .hero-title {
+  color: var(--text-color);
+}
+.dark .hero-subtitle {
+  color: var(--text-muted);
+}
+.dark .hero-tagline {
+  color: var(--text-muted);
+}
+
+/* ── Section text dark overrides ─────────────────────────────────────────── */
+.dark .section-title {
+  color: var(--text-color);
+}
+.dark .section-body {
+  color: var(--text-muted);
+}
+.dark .stat-num {
+  color: var(--text-color);
+}
+.dark .stat-label {
+  color: var(--text-muted);
+}
+.dark .section-footer {
+  color: var(--text-muted);
+}
+
+/* ── Verticals page dark overrides ───────────────────────────────────────── */
+.dark .vertical-label {
+  color: var(--text-muted);
+}
+.dark .vertical-tagline {
+  color: var(--text-muted);
+}
+
+/* ── Card footer dark overrides ──────────────────────────────────────────── */
+.dark .card-footer {
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+}
+
+/* ── Event label / status dark overrides ─────────────────────────────────── */
+.dark .event-label,
+.dark .status-closed {
+  color: var(--text-muted);
+}
+
+/* ── Radio projects table utility dark overrides ─────────────────────────── */
+.dark .col-sno,
+.dark .project-link-arrow {
+  color: var(--text-muted);
+}
+
+/* ── Blog meta / nav label dark overrides ───────────────────────────────── */
+.dark .blog-meta-info,
+.dark .blog-nav-label {
+  color: var(--text-muted);
+}
+
+/* ── Button dark overrides ───────────────────────────────────────────────── */
+.dark .btn-primary {
+  background: #27272a;
+  color: #f4f4f5;
+  border-color: #27272a;
+}
+.dark .btn-primary:hover {
+  background: #3f3f46;
+  border-color: #3f3f46;
+}
+.dark .btn-ghost {
+  color: var(--text-muted);
+  border-color: var(--border-color);
+}
+.dark .btn-ghost:hover {
+  border-color: var(--text-color);
+  color: var(--text-color);
+}
+
+/* ── APOD dark overrides ────────────────────────────────────────────────── */
+.dark .apod-loading-text {
+  color: var(--text-muted);
+}
+
+/* ── Login input dark overrides ──────────────────────────────────────────── */
+.dark .login-input::placeholder {
+  color: var(--text-muted);
+}
+
 /* ── Gallery Nav Buttons and Image Lightbox ──────────────────────────────── */
 .gallery-nav-btn {
   position: absolute;

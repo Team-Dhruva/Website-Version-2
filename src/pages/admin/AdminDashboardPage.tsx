@@ -905,7 +905,7 @@ export default function AdminDashboardPage() {
                     type="text" 
                     placeholder="e.g. admin" 
                     className="login-input" 
-                    style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.03)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
+                    style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
                     value={loginUsername}
                     onChange={e => setLoginUsername(e.target.value)}
                     required
@@ -917,7 +917,7 @@ export default function AdminDashboardPage() {
                     type="password" 
                     placeholder="••••••••" 
                     className="login-input" 
-                    style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.03)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
+                    style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
                     value={loginPassword}
                     onChange={e => setLoginPassword(e.target.value)}
                     required
@@ -1062,7 +1062,7 @@ export default function AdminDashboardPage() {
                         type="text" 
                         placeholder="e.g. Stargazing Event Setup"
                         className="login-input"
-                        style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
+                        style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
                         value={galleryAlt}
                         onChange={e => setGalleryAlt(e.target.value)}
                         required
@@ -1073,7 +1073,7 @@ export default function AdminDashboardPage() {
                       <textarea 
                         rows={4}
                         placeholder="Detailed details about the capture, setup, or context..."
-                        style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem", resize: "vertical" }}
+                        style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem", resize: "vertical" }}
                         value={galleryDesc}
                         onChange={e => setGalleryDesc(e.target.value)}
                       />
@@ -1096,7 +1096,7 @@ export default function AdminDashboardPage() {
                         type="text" 
                         placeholder="e.g. Beyond earth: Life among stars"
                         className="login-input"
-                        style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
+                        style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
                         value={blogTitle}
                         onChange={e => setBlogTitle(e.target.value)}
                         required
@@ -1107,7 +1107,7 @@ export default function AdminDashboardPage() {
                       <textarea 
                         rows={3}
                         placeholder="Brief summary of the blog post..."
-                        style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }}
+                        style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }}
                         value={blogDesc}
                         onChange={e => setBlogDesc(e.target.value)}
                         required
@@ -1119,7 +1119,7 @@ export default function AdminDashboardPage() {
                         type="text" 
                         placeholder="e.g. Nishtha Chakraborty"
                         className="login-input"
-                        style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
+                        style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
                         value={blogAuthor}
                         onChange={e => setBlogAuthor(e.target.value)}
                         required
@@ -1131,7 +1131,7 @@ export default function AdminDashboardPage() {
                         type="text" 
                         placeholder="https://..."
                         className="login-input"
-                        style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
+                        style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
                         value={blogImage}
                         onChange={e => setBlogImage(e.target.value)}
                       />
@@ -1144,7 +1144,7 @@ export default function AdminDashboardPage() {
                       {/* Chapter list */}
                       <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px" }}>
                         {blogChapters.map((ch, idx) => (
-                          <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.03)", padding: "6px 10px", borderRadius: "3px", fontSize: "0.8rem" }}>
+                          <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "var(--card-bg)", padding: "6px 10px", borderRadius: "3px", fontSize: "0.8rem" }}>
                             <span>Ch {ch.id}: {ch.title}</span>
                             <div style={{ display: "flex", gap: "8px" }}>
                               <button type="button" onClick={() => startEditChapter(idx)} style={{ border: "none", background: "none", cursor: "pointer", color: "inherit", textDecoration: "underline" }}>Edit</button>
@@ -1160,7 +1160,7 @@ export default function AdminDashboardPage() {
                           type="text" 
                           placeholder="Chapter Title"
                           className="login-input"
-                          style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontSize: "0.8rem" }}
+                          style={{ width: "100%", padding: "8px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontSize: "0.8rem" }}
                           value={newChTitle}
                           onChange={e => setNewChTitle(e.target.value)}
                         />
@@ -1168,7 +1168,7 @@ export default function AdminDashboardPage() {
                           rows={6}
                           id="blogChMd"
                           placeholder="# Markdown Title\n\nChapter body content here..."
-                          style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "monospace", fontSize: "0.78rem" }}
+                          style={{ width: "100%", padding: "8px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "monospace", fontSize: "0.78rem" }}
                           value={newChMarkdown}
                           onChange={e => setNewChMarkdown(e.target.value)}
                         />
@@ -1300,7 +1300,7 @@ export default function AdminDashboardPage() {
                       <textarea 
                         rows={4}
                         placeholder="Detailed details about what will be covered in the event..."
-                        style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }}
+                        style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }}
                         value={eventAbout}
                         onChange={e => setEventAbout(e.target.value)}
                         required
@@ -1312,7 +1312,7 @@ export default function AdminDashboardPage() {
                       <textarea 
                         rows={3}
                         placeholder="Brief biography of the speaker..."
-                        style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }}
+                        style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }}
                         value={eventAboutSpeaker}
                         onChange={e => setEventAboutSpeaker(e.target.value)}
                       />
@@ -1333,12 +1333,12 @@ export default function AdminDashboardPage() {
                         <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)" }}>Status</label>
                         <select 
                           className="login-input" 
-                          style={{ padding: "9px", background: "rgba(0,0,0,0.02)", color: "inherit" }}
+                          style={{ padding: "9px", background: "var(--card-bg)", color: "inherit" }}
                           value={eventRegStatus}
                           onChange={e => setEventRegStatus(e.target.value as any)}
                         >
-                          <option value="open" style={{ color: "#000" }}>Open</option>
-                          <option value="closed" style={{ color: "#000" }}>Closed</option>
+                          <option value="open" style={{ color: "inherit" }}>Open</option>
+                          <option value="closed" style={{ color: "inherit" }}>Closed</option>
                         </select>
                       </div>
                     </div>
@@ -1371,7 +1371,7 @@ export default function AdminDashboardPage() {
                         type="text" 
                         placeholder="e.g. Hoodie Front View"
                         className="login-input"
-                        style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
+                        style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
                         value={merchTitle}
                         onChange={e => setMerchTitle(e.target.value)}
                         required
@@ -1383,7 +1383,7 @@ export default function AdminDashboardPage() {
                         type="text" 
                         placeholder="e.g. Hoodie or Varsity Details"
                         className="login-input"
-                        style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
+                        style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }}
                         value={merchCategory}
                         onChange={e => setMerchCategory(e.target.value)}
                         required
@@ -1394,7 +1394,7 @@ export default function AdminDashboardPage() {
                       <textarea 
                         rows={4}
                         placeholder="Detailed details about designs and specs..."
-                        style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }}
+                        style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }}
                         value={merchDesc}
                         onChange={e => setMerchDesc(e.target.value)}
                         required
@@ -1414,42 +1414,42 @@ export default function AdminDashboardPage() {
                   <form onSubmit={handleProjectSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Project Title</label>
-                      <input type="text" placeholder="Solar Radio Telescope" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={projTitle} onChange={e => setProjTitle(e.target.value)} required />
+                      <input type="text" placeholder="Solar Radio Telescope" className="login-input" style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={projTitle} onChange={e => setProjTitle(e.target.value)} required />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Description</label>
-                      <textarea rows={3} placeholder="Project description..." style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }} value={projDesc} onChange={e => setProjDesc(e.target.value)} required />
+                      <textarea rows={3} placeholder="Project description..." style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }} value={projDesc} onChange={e => setProjDesc(e.target.value)} required />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Image URL (Optional)</label>
-                      <input type="text" placeholder="https://..." className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={projImage} onChange={e => setProjImage(e.target.value)} />
+                      <input type="text" placeholder="https://..." className="login-input" style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={projImage} onChange={e => setProjImage(e.target.value)} />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Link (Optional)</label>
-                      <input type="text" placeholder="https://github.com/..." className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={projLink} onChange={e => setProjLink(e.target.value)} />
+                      <input type="text" placeholder="https://github.com/..." className="login-input" style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={projLink} onChange={e => setProjLink(e.target.value)} />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Vertical</label>
-                      <select className="login-input" style={{ padding: "9px", background: "rgba(0,0,0,0.02)", color: "inherit" }} value={projVerticalSlug} onChange={e => setProjVerticalSlug(e.target.value)}>
-                        <option value="radio" style={{ color: "#000" }}>Radio Astronomy</option>
-                        <option value="data" style={{ color: "#000" }}>Data Driven Astronomy</option>
-                        <option value="optical" style={{ color: "#000" }}>Optical Astronomy</option>
-                        <option value="research" style={{ color: "#000" }}>Research</option>
+                      <select className="login-input" style={{ padding: "9px", background: "var(--card-bg)", color: "inherit" }} value={projVerticalSlug} onChange={e => setProjVerticalSlug(e.target.value)}>
+                        <option value="radio" style={{ color: "inherit" }}>Radio Astronomy</option>
+                        <option value="data" style={{ color: "inherit" }}>Data Driven Astronomy</option>
+                        <option value="optical" style={{ color: "inherit" }}>Optical Astronomy</option>
+                        <option value="research" style={{ color: "inherit" }}>Research</option>
                       </select>
                     </div>
                     <div style={{ border: "1px solid var(--border-color)", padding: "16px", borderRadius: "4px", marginTop: "10px", background: "rgba(0,0,0,0.01)" }}>
                       <h4 style={{ margin: "0 0 12px 0", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--text-color)" }}>Chapters ({projChapters.length})</h4>
                       <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px" }}>
                         {projChapters.map((ch, idx) => (
-                          <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.03)", padding: "6px 10px", borderRadius: "3px", fontSize: "0.8rem" }}>
+                          <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "var(--card-bg)", padding: "6px 10px", borderRadius: "3px", fontSize: "0.8rem" }}>
                             <span>Ch {ch.id}: {ch.title}</span>
                             <button type="button" onClick={() => { const updated = projChapters.filter((_, i) => i !== idx).map((c, i) => ({ ...c, id: i + 1 })); setProjChapters(updated); }} style={{ border: "none", background: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem" }}>Del</button>
                           </div>
                         ))}
                       </div>
                       <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1px solid var(--border-color)", paddingTop: "12px" }}>
-                        <input type="text" placeholder="Chapter Title" className="login-input" style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontSize: "0.8rem" }} id="projChTitle" />
-                        <textarea rows={4} placeholder="# Markdown\n\nContent..." style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "monospace", fontSize: "0.78rem" }} id="projChMd" />
+                        <input type="text" placeholder="Chapter Title" className="login-input" style={{ width: "100%", padding: "8px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontSize: "0.8rem" }} id="projChTitle" />
+                        <textarea rows={4} placeholder="# Markdown\n\nContent..." style={{ width: "100%", padding: "8px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "monospace", fontSize: "0.78rem" }} id="projChMd" />
                         <div style={{display:"flex", gap:"8px", alignItems:"center"}}>
                           <button type="button" onClick={() => document.getElementById("projChUpload")?.click()} className="btn btn-ghost" style={{padding:"6px 12px", fontSize:"0.7rem", cursor:"pointer"}}>+ Upload Image/Video</button>
                           <span style={{fontSize:"0.65rem", color:"var(--text-muted)"}}>Inserts ![[url]]</span>
@@ -1468,19 +1468,19 @@ export default function AdminDashboardPage() {
                   <form onSubmit={handleTeamSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Member Name</label>
-                      <input type="text" placeholder="Aryan" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={memberName} onChange={e => setMemberName(e.target.value)} required />
+                      <input type="text" placeholder="Aryan" className="login-input" style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={memberName} onChange={e => setMemberName(e.target.value)} required />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Role / Designation</label>
-                      <input type="text" placeholder="Team Captain" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={memberRole} onChange={e => setMemberRole(e.target.value)} required />
+                      <input type="text" placeholder="Team Captain" className="login-input" style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={memberRole} onChange={e => setMemberRole(e.target.value)} required />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Batch</label>
-                      <select className="login-input" style={{ padding: "9px", background: "rgba(0,0,0,0.02)", color: "inherit" }} value={memberBatch} onChange={e => setMemberBatch(e.target.value)}>
-                        <option value="2024-core" style={{ color: "#000" }}>2024 Core Team</option>
-                        <option value="2024-semi" style={{ color: "#000" }}>2024 Semi-Core Team</option>
-                        <option value="2023-core" style={{ color: "#000" }}>2023 Core Team</option>
-                        <option value="faculty" style={{ color: "#000" }}>Faculty Advisors</option>
+                      <select className="login-input" style={{ padding: "9px", background: "var(--card-bg)", color: "inherit" }} value={memberBatch} onChange={e => setMemberBatch(e.target.value)}>
+                        <option value="2024-core" style={{ color: "inherit" }}>2024 Core Team</option>
+                        <option value="2024-semi" style={{ color: "inherit" }}>2024 Semi-Core Team</option>
+                        <option value="2023-core" style={{ color: "inherit" }}>2023 Core Team</option>
+                        <option value="faculty" style={{ color: "inherit" }}>Faculty Advisors</option>
                       </select>
                     </div>
                     <button type="submit" className="btn btn-primary" style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.05em" }}>{editingMemberId ? "Save Member" : "Add Member"}</button>
@@ -1493,39 +1493,39 @@ export default function AdminDashboardPage() {
                   <form onSubmit={handleRecruitSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Candidate Name</label>
-                      <input type="text" placeholder="Mahathi" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={recruitName} onChange={e => setRecruitName(e.target.value)} required />
+                      <input type="text" placeholder="Mahathi" className="login-input" style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={recruitName} onChange={e => setRecruitName(e.target.value)} required />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Semester</label>
-                      <input type="text" placeholder="1st Semester" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={recruitSemester} onChange={e => setRecruitSemester(e.target.value)} required />
+                      <input type="text" placeholder="1st Semester" className="login-input" style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={recruitSemester} onChange={e => setRecruitSemester(e.target.value)} required />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Epoch</label>
-                      <select className="login-input" style={{ padding: "9px", background: "rgba(0,0,0,0.02)", color: "inherit" }} value={recruitEpoch} onChange={e => setRecruitEpoch(e.target.value)}>
+                      <select className="login-input" style={{ padding: "9px", background: "var(--card-bg)", color: "inherit" }} value={recruitEpoch} onChange={e => setRecruitEpoch(e.target.value)}>
                         {[...Object.keys(RECRUITMENT_DATA), ...recruitEpochs.map(e => e.epoch)]
                           .filter((v, i, a) => a.indexOf(v) === i)
                           .map(ep => (
-                            <option key={ep} value={ep} style={{ color: "#000" }}>{ep}</option>
+                            <option key={ep} value={ep} style={{ color: "inherit" }}>{ep}</option>
                           ))}
                       </select>
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Department</label>
-                      <select className="login-input" style={{ padding: "9px", background: "rgba(0,0,0,0.02)", color: "inherit" }} value={recruitDepartment} onChange={e => setRecruitDepartment(e.target.value)}>
-                        <option value="ae" style={{ color: "#000" }}>Aerospace Engineering</option>
-                        <option value="ai" style={{ color: "#000" }}>Artificial Intelligence</option>
-                        <option value="bt" style={{ color: "#000" }}>Biotechnology</option>
-                        <option value="cd" style={{ color: "#000" }}>Computer Science (Data Science)</option>
-                        <option value="cy" style={{ color: "#000" }}>Computer Science (Cyber Security)</option>
-                        <option value="cs" style={{ color: "#000" }}>Computer Science</option>
-                        <option value="ch" style={{ color: "#000" }}>Chemical Engineering</option>
-                        <option value="cv" style={{ color: "#000" }}>Civil Engineering</option>
-                        <option value="ec" style={{ color: "#000" }}>Electronics and Communication</option>
-                        <option value="ee" style={{ color: "#000" }}>Electrical and Electronics</option>
-                        <option value="et" style={{ color: "#000" }}>Electronics and Telecommunication</option>
-                        <option value="im" style={{ color: "#000" }}>Industrial Engineering and Management</option>
-                        <option value="is" style={{ color: "#000" }}>Information Science</option>
-                        <option value="me" style={{ color: "#000" }}>Mechanical Engineering</option>
+                      <select className="login-input" style={{ padding: "9px", background: "var(--card-bg)", color: "inherit" }} value={recruitDepartment} onChange={e => setRecruitDepartment(e.target.value)}>
+                        <option value="ae" style={{ color: "inherit" }}>Aerospace Engineering</option>
+                        <option value="ai" style={{ color: "inherit" }}>Artificial Intelligence</option>
+                        <option value="bt" style={{ color: "inherit" }}>Biotechnology</option>
+                        <option value="cd" style={{ color: "inherit" }}>Computer Science (Data Science)</option>
+                        <option value="cy" style={{ color: "inherit" }}>Computer Science (Cyber Security)</option>
+                        <option value="cs" style={{ color: "inherit" }}>Computer Science</option>
+                        <option value="ch" style={{ color: "inherit" }}>Chemical Engineering</option>
+                        <option value="cv" style={{ color: "inherit" }}>Civil Engineering</option>
+                        <option value="ec" style={{ color: "inherit" }}>Electronics and Communication</option>
+                        <option value="ee" style={{ color: "inherit" }}>Electrical and Electronics</option>
+                        <option value="et" style={{ color: "inherit" }}>Electronics and Telecommunication</option>
+                        <option value="im" style={{ color: "inherit" }}>Industrial Engineering and Management</option>
+                        <option value="is" style={{ color: "inherit" }}>Information Science</option>
+                        <option value="me" style={{ color: "inherit" }}>Mechanical Engineering</option>
                       </select>
                     </div>
                     <button type="submit" className="btn btn-primary" style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.05em" }}>{editingRecruitId ? "Save Recruit" : "Add Recruit"}</button>
@@ -1539,7 +1539,7 @@ export default function AdminDashboardPage() {
                     <h4 style={{ margin: "0 0 12px 0", fontSize: "0.8rem", textTransform: "uppercase" }}>Manage Epochs</h4>
                     <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "12px" }}>
                       {recruitEpochs.map(ep => (
-                        <div key={ep.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 10px", background: "rgba(0,0,0,0.03)", borderRadius: "3px", fontSize: "0.8rem" }}>
+                        <div key={ep.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 10px", background: "var(--card-bg)", borderRadius: "3px", fontSize: "0.8rem" }}>
                           <span><strong>{ep.epoch}</strong> — {ep.label}</span>
                           <button onClick={() => handleDeleteEpoch(ep.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "rgba(220,38,38,0.85)", fontSize: "0.75rem" }}>Delete</button>
                         </div>
@@ -1558,29 +1558,29 @@ export default function AdminDashboardPage() {
                   <form onSubmit={handleIaArticleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Article Title</label>
-                      <input type="text" placeholder="Nakshatra" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={iaTitle} onChange={e => setIaTitle(e.target.value)} required />
+                      <input type="text" placeholder="Nakshatra" className="login-input" style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={iaTitle} onChange={e => setIaTitle(e.target.value)} required />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Description</label>
-                      <textarea rows={3} placeholder="Article summary..." style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }} value={iaDesc} onChange={e => setIaDesc(e.target.value)} required />
+                      <textarea rows={3} placeholder="Article summary..." style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }} value={iaDesc} onChange={e => setIaDesc(e.target.value)} required />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Author</label>
-                      <input type="text" placeholder="Pranati Rao, Nithyashree S | Editor: Deepthi Prasad" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={iaAuthor} onChange={e => setIaAuthor(e.target.value)} required />
+                      <input type="text" placeholder="Pranati Rao, Nithyashree S | Editor: Deepthi Prasad" className="login-input" style={{ width: "100%", padding: "10px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={iaAuthor} onChange={e => setIaAuthor(e.target.value)} required />
                     </div>
                     <div style={{ border: "1px solid var(--border-color)", padding: "16px", borderRadius: "4px", marginTop: "10px", background: "rgba(0,0,0,0.01)" }}>
                       <h4 style={{ margin: "0 0 12px 0", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--text-color)" }}>Chapters ({iaChapters.length})</h4>
                       <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px" }}>
                         {iaChapters.map((ch, idx) => (
-                          <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.03)", padding: "6px 10px", borderRadius: "3px", fontSize: "0.8rem" }}>
+                          <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "var(--card-bg)", padding: "6px 10px", borderRadius: "3px", fontSize: "0.8rem" }}>
                             <span>Ch {ch.id}: {ch.title}</span>
                             <button type="button" onClick={() => { const updated = iaChapters.filter((_, i) => i !== idx).map((c, i) => ({ ...c, id: i + 1 })); setIaChapters(updated); }} style={{ border: "none", background: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem" }}>Del</button>
                           </div>
                         ))}
                       </div>
                       <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1px solid var(--border-color)", paddingTop: "12px" }}>
-                        <input type="text" placeholder="Chapter Title" className="login-input" style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontSize: "0.8rem" }} id="iaChTitle" />
-                        <textarea rows={4} placeholder="# Markdown\n\nContent..." style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "monospace", fontSize: "0.78rem" }} id="iaChMd" />
+                        <input type="text" placeholder="Chapter Title" className="login-input" style={{ width: "100%", padding: "8px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontSize: "0.8rem" }} id="iaChTitle" />
+                        <textarea rows={4} placeholder="# Markdown\n\nContent..." style={{ width: "100%", padding: "8px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "monospace", fontSize: "0.78rem" }} id="iaChMd" />
                         <div style={{display:"flex", gap:"8px", alignItems:"center"}}>
                           <button type="button" onClick={() => document.getElementById("iaChUpload")?.click()} className="btn btn-ghost" style={{padding:"6px 12px", fontSize:"0.7rem", cursor:"pointer"}}>+ Upload Image/Video</button>
                           <span style={{fontSize:"0.65rem", color:"var(--text-muted)"}}>Inserts ![[url]]</span>
