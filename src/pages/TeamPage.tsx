@@ -1,11 +1,19 @@
-import { useEffect, useRef } from "react";
-
+import { useEffect, useRef, useState } from "react";
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
 import Breadcrumbs from "../components/Breadcrumbs";
 import SiteFooter from "../components/SiteFooter";
 
 interface Member {
   name: string;
   role: string;
+}
+
+interface FireMember {
+  id: string;
+  name: string;
+  role: string;
+  batch: string;
 }
 
 const TEAM_DATA: Record<string, { label: string; members: Member[] }> = {
@@ -70,6 +78,37 @@ const BATCH_ORDER = ["faculty", "2024-core", "2024-semi", "2023-core"];
 export default function TeamPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
+  const [fireMembers, setFireMembers] = useState<FireMember[]>([]);
+  const [mergedData, setMergedData] = useState<Record<string, { label: string; members: Member[] }>>(TEAM_DATA);
+
+  // Fetch Firestore team members and merge with static data
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const snap = await getDocs(collection(db, "team"));
+        const list: FireMember[] = [];
+        snap.forEach((docSnap) => {
+          list.push({ id: docSnap.id, ...docSnap.data() } as FireMember);
+        });
+        setFireMembers(list);
+      } catch (err) {
+        console.error("Error fetching team members:", err);
+      }
+    };
+    fetchMembers();
+  }, []);
+
+  useEffect(() => {
+    if (fireMembers.length === 0) return;
+    const merged = { ...TEAM_DATA };
+    fireMembers.forEach((m) => {
+      if (!merged[m.batch]) {
+        merged[m.batch] = { label: m.batch, members: [] };
+      }
+      merged[m.batch].members.push({ name: m.name, role: m.role });
+    });
+    setMergedData(merged);
+  }, [fireMembers]);
 
   // Match the header padding and title font size logic from vertical page
   useEffect(() => {
@@ -150,8 +189,8 @@ export default function TeamPage() {
         </div>
 
         <div style={{ marginTop: "40px", pointerEvents: "auto", display: "flex", flexDirection: "column", gap: "60px" }}>
-          {BATCH_ORDER.map((batchKey) => {
-            const batch = TEAM_DATA[batchKey];
+            {[...BATCH_ORDER, ...Object.keys(mergedData).filter(k => !BATCH_ORDER.includes(k))].map((batchKey) => {
+            const batch = mergedData[batchKey];
             if (!batch) return null;
             return (
               <div key={batchKey} className="team-table-container">

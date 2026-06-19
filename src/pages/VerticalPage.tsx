@@ -2,12 +2,18 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { VERTICALS } from "../data/verticals";
 import { IA_ARTICLES, IAArticle, Chapter } from "../data/indianAstrophysicsData";
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
 import Breadcrumbs from "../components/Breadcrumbs";
 import SiteFooter from "../components/SiteFooter";
 
 export default function VerticalPage() {
   const { slug } = useParams<{ slug: string }>();
   const vertical = VERTICALS.find((v) => v.slug === slug);
+  const [firestoreProjects, setFirestoreProjects] = useState<any[]>([]);
+  const [firestoreIAArticles, setFirestoreIAArticles] = useState<IAArticle[]>([]);
+  const [mergedProjects, setMergedProjects] = useState<any[]>([]);
+  const [mergedIAArticles, setMergedIAArticles] = useState<IAArticle[]>([]);
   
   const [activeIAArticle, setActiveIAArticle] = useState<IAArticle | null>(null);
   const [activeIAChapter, setActiveIAChapter] = useState<Chapter | null>(null);
@@ -17,6 +23,58 @@ export default function VerticalPage() {
 
   const iaContainerRef = useRef<HTMLDivElement>(null);
   const iaTextRef = useRef<HTMLHeadingElement>(null);
+
+  // Fetch Firestore projects and IA articles
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const projSnap = await getDocs(collection(db, "projects"));
+        const projList: any[] = [];
+        projSnap.forEach((docSnap) => {
+          const d = docSnap.data() as any;
+          projList.push({ title: d.title, description: d.description, image: d.image || "", link: d.link || "", verticalSlug: d.verticalSlug || "" });
+        });
+        setFirestoreProjects(projList);
+
+        const iaSnap = await getDocs(collection(db, "ia-articles"));
+        const iaList: IAArticle[] = [];
+        iaSnap.forEach((docSnap) => {
+          const d = docSnap.data() as any;
+          iaList.push({ id: d.articleId?.toString() || docSnap.id, title: d.title, description: d.description, author: d.author, lastUpdated: d.lastUpdated, chapters: d.chapters || [] });
+        });
+        setFirestoreIAArticles(iaList);
+      } catch (err) {
+        console.error("Error fetching Firestore data:", err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // Merge firestore data with static data when slug or firestore data changes
+  useEffect(() => {
+    if (!vertical && slug !== "research") return;
+    // Merge projects — Firestore overrides static by title
+    const staticProjs = vertical ? vertical.projects : [];
+    const matchingProjs = firestoreProjects.filter(p => p.verticalSlug === slug || slug === "research" && (!p.verticalSlug || p.verticalSlug === "research"));
+    const seenTitles = new Set<string>();
+    const merged: any[] = [];
+    matchingProjs.forEach(p => { seenTitles.add(p.title.toLowerCase()); merged.push(p); });
+    staticProjs.forEach(p => { if (!seenTitles.has(p.title.toLowerCase())) { merged.push(p); } });
+    setMergedProjects(merged);
+
+    // Merge IA articles
+    const iaWithChapters = [...firestoreIAArticles.filter(a => a.chapters.length > 0), ...IA_ARTICLES.filter(a => a.chapters.length > 0)];
+    const iaWithoutChapters = [...firestoreIAArticles.filter(a => a.chapters.length === 0), ...IA_ARTICLES.filter(a => a.chapters.length === 0)];
+    const seen = new Set<string>();
+    const deduped: IAArticle[] = [];
+    [...iaWithChapters, ...iaWithoutChapters].forEach(a => {
+      if (!seen.has(a.title.toLowerCase())) {
+        seen.add(a.title.toLowerCase());
+        deduped.push(a);
+      }
+    });
+    setMergedIAArticles(deduped);
+  }, [slug, vertical, firestoreProjects, firestoreIAArticles]);
 
   // Dynamic calculation to match the exact font size and vertical alignment of the home page tagline
   useEffect(() => {
@@ -605,7 +663,7 @@ export default function VerticalPage() {
         ) : (
           /* Main projects table and Indian Astrophysics card grid */
           <>
-            {vertical.projects && vertical.projects.length > 0 && (
+            {mergedProjects.length > 0 && (
               <div className="radio-projects-table-container">
                 <table className="radio-projects-table">
                   <colgroup>
@@ -621,15 +679,19 @@ export default function VerticalPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {vertical.projects.map((proj, idx) => (
+                    {mergedProjects.map((proj, idx) => (
                       <tr key={idx}>
                         <td className="col-sno">{idx + 1}</td>
                         <td className="col-project">
-                          {proj.link.startsWith("/") ? (
+                          {(proj as any).chapters && (proj as any).chapters.length > 0 && !proj.link ? (
+                            <Link to={`/projects/${proj.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`} className="project-table-link">
+                              {proj.title} <span className="project-link-arrow">→</span>
+                            </Link>
+                          ) : proj.link?.startsWith("/") ? (
                             <Link to={proj.link} className="project-table-link">
                               {proj.title} <span className="project-link-arrow">→</span>
                             </Link>
-                          ) : proj.link.startsWith("#") ? (
+                          ) : proj.link?.startsWith("#") ? (
                             <a 
                               href={proj.link} 
                               onClick={(e) => {
@@ -643,10 +705,12 @@ export default function VerticalPage() {
                             >
                               {proj.title} <span className="project-link-arrow">↓</span>
                             </a>
-                          ) : (
+                          ) : proj.link ? (
                             <a href={proj.link} target="_blank" rel="noopener noreferrer" className="project-table-link">
                               {proj.title} <span className="project-link-arrow">↗</span>
                             </a>
+                          ) : (
+                            <span className="project-table-link" style={{ opacity: 0.5 }}>{proj.title}</span>
                           )}
                         </td>
                         <td className="col-desc">{proj.description}</td>
@@ -668,7 +732,7 @@ export default function VerticalPage() {
                 </div>
 
                 <div className="vertical-projects-grid" style={{ marginTop: "40px" }}>
-                  {IA_ARTICLES.map((article) => {
+                  {mergedIAArticles.map((article) => {
                     const isClickable = article.chapters.length > 0;
                     return (
                       <div

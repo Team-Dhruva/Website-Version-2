@@ -138,7 +138,18 @@ export default function GalleryPage() {
               const subNum = getSubtitleNumber(img);
               return (
                 <div key={index} className={`gallery-grid-item ${sizeClass}`} onClick={() => setSelectedIndex(index)}>
-                  <img src={img.src} alt={img.alt} className="gallery-grid-image" loading="lazy" />
+                  {img.isVideo ? (
+                    <>
+                      <img src={img.src} alt={img.alt} className="gallery-grid-image" loading="lazy" />
+                      <div className="gallery-video-play-overlay">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polygon points="5 3 19 12 5 21 5 3" fill="rgba(255,255,255,0.9)" stroke="rgba(0,0,0,0.5)" />
+                        </svg>
+                      </div>
+                    </>
+                  ) : (
+                    <img src={img.src} alt={img.alt} className="gallery-grid-image" loading="lazy" />
+                  )}
                   {subNum && (
                     <span className="gallery-item-number">{subNum}</span>
                   )}
@@ -173,7 +184,11 @@ export default function GalleryPage() {
           </button>
 
           <div className="gallery-lightbox-image-wrapper" onClick={(e) => e.stopPropagation()}>
-            <img src={selectedImage.src} alt={selectedImage.alt} className="gallery-lightbox-image" loading="lazy" />
+            {selectedImage.isVideo ? (
+              <video src={selectedImage.src} controls autoPlay className="gallery-lightbox-video" style={{ maxWidth: "90vw", maxHeight: "85vh", borderRadius: "4px" }} />
+            ) : (
+              <img src={selectedImage.src} alt={selectedImage.alt} className="gallery-lightbox-image" loading="lazy" />
+            )}
           </div>
         </div>
       )}

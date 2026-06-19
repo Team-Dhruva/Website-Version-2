@@ -2,6 +2,7 @@ export interface GalleryImage {
   src: string;
   alt: string;
   description?: string;
+  isVideo?: boolean;
 }
 
 export const GALLERY_IMAGES: GalleryImage[] = [

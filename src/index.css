@@ -408,10 +408,9 @@ html,body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 35%;
+  height: 25%;
   z-index: 2; /* above model-viewer (z:1) but below hero-content (z:5) */
   pointer-events: auto;
-  touch-action: pan-y;
 }
 
 .hero-iss-container {
@@ -1629,6 +1628,23 @@ html,body {
 }
 
 .gallery-grid-item:hover .gallery-item-number {
+  opacity: 1;
+}
+
+.gallery-video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.15);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.gallery-grid-item:hover .gallery-video-play-overlay {
   opacity: 1;
 }
 

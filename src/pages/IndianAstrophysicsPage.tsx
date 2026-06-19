@@ -1,11 +1,38 @@
 import { useState, useEffect, useRef } from "react";
 import { IA_ARTICLES, IAArticle, Chapter } from "../data/indianAstrophysicsData";
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
 import Breadcrumbs from "../components/Breadcrumbs";
 import SiteFooter from "../components/SiteFooter";
 
 export default function IndianAstrophysicsPage() {
   const [activeArticle, setActiveArticle] = useState<IAArticle | null>(null);
   const [activeChapter, setActiveChapter] = useState<Chapter | null>(null);
+  const [mergedArticles, setMergedArticles] = useState<IAArticle[]>(IA_ARTICLES);
+
+  useEffect(() => {
+    const fetchIAArticles = async () => {
+      try {
+        const snap = await getDocs(collection(db, "ia-articles"));
+        const list: IAArticle[] = [];
+        snap.forEach((docSnap) => {
+          const d = docSnap.data() as any;
+          list.push({ id: d.articleId?.toString() || docSnap.id, title: d.title, description: d.description, author: d.author, lastUpdated: d.lastUpdated, chapters: d.chapters || [] });
+        });
+        const withChapters = [...list.filter(a => a.chapters.length > 0), ...IA_ARTICLES.filter(a => a.chapters.length > 0)];
+        const withoutChapters = [...list.filter(a => a.chapters.length === 0), ...IA_ARTICLES.filter(a => a.chapters.length === 0)];
+        const seen = new Set<string>();
+        const deduped: IAArticle[] = [];
+        [...withChapters, ...withoutChapters].forEach(a => {
+          if (!seen.has(a.title.toLowerCase())) { seen.add(a.title.toLowerCase()); deduped.push(a); }
+        });
+        setMergedArticles(deduped);
+      } catch (err) {
+        console.error("Error fetching IA articles:", err);
+      }
+    };
+    fetchIAArticles();
+  }, []);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
@@ -382,7 +409,7 @@ export default function IndianAstrophysicsPage() {
         {!activeArticle ? (
           /* 1. Article List View */
           <div className="vertical-projects-grid" style={{ pointerEvents: "auto", marginTop: "40px" }}>
-            {IA_ARTICLES.map((article) => {
+            {mergedArticles.map((article) => {
               const isClickable = article.chapters.length > 0;
               return (
                 <div

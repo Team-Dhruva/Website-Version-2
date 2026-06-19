@@ -10,6 +10,7 @@ import BlogPage from './pages/BlogPage.tsx'
 import TeamPage from './pages/TeamPage.tsx'
 import MerchandisePage from './pages/MerchandisePage.tsx'
 import IndianAstrophysicsPage from './pages/IndianAstrophysicsPage.tsx'
+import ProjectDetailPage from './pages/ProjectDetailPage.tsx'
 import AdminDashboardPage from './pages/admin/AdminDashboardPage.tsx'
 import Layout from './components/Layout.tsx'
 import './index.css'
@@ -29,6 +30,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/team" element={<TeamPage />} />
           <Route path="/merchandise" element={<MerchandisePage />} />
           <Route path="/indian-astrophysics" element={<IndianAstrophysicsPage />} />
+          <Route path="/projects/:slug" element={<ProjectDetailPage />} />
           <Route path="/admin" element={<AdminDashboardPage />} />
         </Route>
       </Routes>

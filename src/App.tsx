@@ -66,11 +66,12 @@ export default function App() {
                 alt="International Space Station 3D Model"
                 camera-controls
                 interaction-prompt="none"
-                camera-orbit="-112.3deg 127.8deg 2400m"
+                camera-orbit="-112.3deg 127.8deg 1200m"
                 camera-target="7.88m 11.16m 15.52m"
                 field-of-view="8deg"
-                min-camera-orbit="-180deg 10deg 500m"
-                max-camera-orbit="180deg 170deg 5000m"
+                min-camera-orbit="-180deg 0deg 800m"
+                max-camera-orbit="180deg 180deg 2000m"
+                max-field-of-view="10deg"
                 style={{ width: "100%", height: "100%", opacity: 0, transition: "opacity 1s ease" }}
               />
             )}

@@ -20,6 +20,8 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import SiteFooter from "../../components/SiteFooter";
+import { RECRUITMENT_DATA } from "../../data/recruitmentData";
+import { VERTICALS } from "../../data/verticals";
 
 // Types
 interface GalleryItem {
@@ -75,6 +77,48 @@ interface MerchItem {
   description: string;
 }
 
+interface ProjectItem {
+  id: string;
+  title: string;
+  description: string;
+  image?: string;
+  link?: string;
+  verticalSlug: string;
+  chapters?: Chapter[];
+}
+
+interface TeamMemberItem {
+  id: string;
+  name: string;
+  role: string;
+  batch: string;
+  image?: string;
+}
+
+interface RecruitItem {
+  id: string;
+  name: string;
+  semester: string;
+  epoch: string;
+  department: string;
+}
+
+interface RecruitEpoch {
+  id: string;
+  epoch: string;
+  label: string;
+}
+
+interface IAArticleItem {
+  id: string;
+  articleId: number;
+  title: string;
+  description: string;
+  author: string;
+  lastUpdated?: string;
+  chapters: Chapter[];
+}
+
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
   const { theme } = useTheme();
@@ -87,7 +131,7 @@ export default function AdminDashboardPage() {
   const [loginErr, setLoginErr] = useState("");
 
   // Tab State
-  const [activeTab, setActiveTab] = useState<"gallery" | "blogs" | "events" | "merchandise">("gallery");
+  const [activeTab, setActiveTab] = useState<"gallery" | "blogs" | "events" | "merchandise" | "projects" | "team" | "recruitment" | "ia-articles">("gallery");
 
   // Data States
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
@@ -105,6 +149,7 @@ export default function AdminDashboardPage() {
   const [galleryFile, setGalleryFile] = useState<File | null>(null);
   const [galleryAlt, setGalleryAlt] = useState("");
   const [galleryDesc, setGalleryDesc] = useState("");
+  const [galleryIsVideo, setGalleryIsVideo] = useState(false);
   const [editingGalleryId, setEditingGalleryId] = useState<string | null>(null);
 
   // Form states - Blogs
@@ -140,6 +185,42 @@ export default function AdminDashboardPage() {
   const [merchCategory, setMerchCategory] = useState("");
   const [merchDesc, setMerchDesc] = useState("");
   const [editingMerchId, setEditingMerchId] = useState<string | null>(null);
+
+  // Data states - Projects
+  const [projects, setProjects] = useState<ProjectItem[]>([]);
+  const [projTitle, setProjTitle] = useState("");
+  const [projDesc, setProjDesc] = useState("");
+  const [projImage, setProjImage] = useState("");
+  const [projLink, setProjLink] = useState("");
+  const [projVerticalSlug, setProjVerticalSlug] = useState("radio");
+  const [projChapters, setProjChapters] = useState<Chapter[]>([]);
+  const [editingProjId, setEditingProjId] = useState<string | null>(null);
+
+  // Data states - Team
+  const [teamMembers, setTeamMembers] = useState<TeamMemberItem[]>([]);
+  const [memberName, setMemberName] = useState("");
+  const [memberRole, setMemberRole] = useState("");
+  const [memberBatch, setMemberBatch] = useState("2024-core");
+  const [editingMemberId, setEditingMemberId] = useState<string | null>(null);
+
+  // Data states - Recruitment
+  const [recruits, setRecruits] = useState<RecruitItem[]>([]);
+  const [recruitName, setRecruitName] = useState("");
+  const [recruitSemester, setRecruitSemester] = useState("");
+  const [recruitEpoch, setRecruitEpoch] = useState("J2024.7");
+  const [recruitDepartment, setRecruitDepartment] = useState("cs");
+  const [editingRecruitId, setEditingRecruitId] = useState<string | null>(null);
+  const [recruitEpochs, setRecruitEpochs] = useState<RecruitEpoch[]>([]);
+  const [newEpochCode, setNewEpochCode] = useState("");
+  const [newEpochLabel, setNewEpochLabel] = useState("");
+
+  // Data states - IA Articles
+  const [iaArticles, setIaArticles] = useState<IAArticleItem[]>([]);
+  const [iaTitle, setIaTitle] = useState("");
+  const [iaDesc, setIaDesc] = useState("");
+  const [iaAuthor, setIaAuthor] = useState("");
+  const [iaChapters, setIaChapters] = useState<Chapter[]>([]);
+  const [editingIaId, setEditingIaId] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
@@ -258,6 +339,40 @@ export default function AdminDashboardPage() {
           list.push({ id: docSnap.id, ...docSnap.data() } as MerchItem);
         });
         setMerch(list);
+      } else if (activeTab === "projects") {
+        const snap = await getDocs(collection(db, "projects"));
+        const list: ProjectItem[] = [];
+        snap.forEach((docSnap) => {
+          list.push({ id: docSnap.id, ...docSnap.data() } as ProjectItem);
+        });
+        setProjects(list);
+      } else if (activeTab === "team") {
+        const snap = await getDocs(collection(db, "team"));
+        const list: TeamMemberItem[] = [];
+        snap.forEach((docSnap) => {
+          list.push({ id: docSnap.id, ...docSnap.data() } as TeamMemberItem);
+        });
+        setTeamMembers(list);
+      } else if (activeTab === "recruitment") {
+        const snap = await getDocs(collection(db, "recruitment"));
+        const list: RecruitItem[] = [];
+        snap.forEach((docSnap) => {
+          list.push({ id: docSnap.id, ...docSnap.data() } as RecruitItem);
+        });
+        setRecruits(list);
+        const epochSnap = await getDocs(collection(db, "recruitment-epochs"));
+        const epochList: RecruitEpoch[] = [];
+        epochSnap.forEach((docSnap) => {
+          epochList.push({ id: docSnap.id, ...docSnap.data() } as RecruitEpoch);
+        });
+        setRecruitEpochs(epochList);
+      } else if (activeTab === "ia-articles") {
+        const snap = await getDocs(collection(db, "ia-articles"));
+        const list: IAArticleItem[] = [];
+        snap.forEach((docSnap) => {
+          list.push({ id: docSnap.id, ...docSnap.data() } as IAArticleItem);
+        });
+        setIaArticles(list);
       }
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -307,22 +422,24 @@ export default function AdminDashboardPage() {
       }
 
       if (editingGalleryId) {
-        const updateData: any = { alt: galleryAlt, description: galleryDesc };
+        const updateData: any = { alt: galleryAlt, description: galleryDesc, isVideo: galleryIsVideo };
         if (downloadUrl) updateData.src = downloadUrl;
         await updateDoc(doc(db, "gallery", editingGalleryId), updateData);
         setEditingGalleryId(null);
       } else {
-        if (!downloadUrl) return alert("Please select an image file first.");
+        if (!downloadUrl) return alert("Please select a file first.");
         await addDoc(collection(db, "gallery"), {
           src: downloadUrl,
           alt: galleryAlt,
           description: galleryDesc,
+          isVideo: galleryIsVideo,
           createdAt: Date.now()
         });
       }
       setGalleryFile(null);
       setGalleryAlt("");
       setGalleryDesc("");
+      setGalleryIsVideo(false);
       fetchData();
     } catch (err) {
       console.error(err);
@@ -575,6 +692,191 @@ export default function AdminDashboardPage() {
     }
   };
 
+  // Projects CRUD Handlers
+  const handleProjectSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const projData = {
+        title: projTitle,
+        description: projDesc,
+        image: projImage,
+        link: projLink,
+        verticalSlug: projVerticalSlug,
+        chapters: projChapters
+      };
+      if (editingProjId) {
+        await updateDoc(doc(db, "projects", editingProjId), projData);
+        setEditingProjId(null);
+      } else {
+        await addDoc(collection(db, "projects"), projData);
+      }
+      setProjTitle(""); setProjDesc(""); setProjImage(""); setProjLink(""); setProjVerticalSlug("radio"); setProjChapters([]);
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      alert("Error saving project");
+    }
+  };
+
+  const handleEditProject = (item: ProjectItem) => {
+    setEditingProjId(item.id);
+    setProjTitle(item.title);
+    setProjDesc(item.description);
+    setProjImage(item.image || "");
+    setProjLink(item.link || "");
+    setProjVerticalSlug(item.verticalSlug);
+    setProjChapters(item.chapters || []);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleDeleteProject = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this project?")) return;
+    try {
+      await deleteDoc(doc(db, "projects", id));
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting project");
+    }
+  };
+
+  // Team CRUD Handlers
+  const handleTeamSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const memberData = { name: memberName, role: memberRole, batch: memberBatch };
+      if (editingMemberId) {
+        await updateDoc(doc(db, "team", editingMemberId), memberData);
+        setEditingMemberId(null);
+      } else {
+        await addDoc(collection(db, "team"), memberData);
+      }
+      setMemberName(""); setMemberRole(""); setMemberBatch("2024-core");
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      alert("Error saving team member");
+    }
+  };
+
+  const handleEditTeamMember = (item: TeamMemberItem) => {
+    setEditingMemberId(item.id);
+    setMemberName(item.name);
+    setMemberRole(item.role);
+    setMemberBatch(item.batch);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleDeleteTeamMember = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this team member?")) return;
+    try {
+      await deleteDoc(doc(db, "team", id));
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting team member");
+    }
+  };
+
+  // Recruitment CRUD Handlers
+  const handleRecruitSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const recruitData = { name: recruitName, semester: recruitSemester, epoch: recruitEpoch, department: recruitDepartment };
+      if (editingRecruitId) {
+        await updateDoc(doc(db, "recruitment", editingRecruitId), recruitData);
+        setEditingRecruitId(null);
+      } else {
+        await addDoc(collection(db, "recruitment"), recruitData);
+      }
+      setRecruitName(""); setRecruitSemester(""); setRecruitEpoch("J2024.7"); setRecruitDepartment("cs");
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      alert("Error saving recruit");
+    }
+  };
+
+  const handleEditRecruit = (item: RecruitItem) => {
+    setEditingRecruitId(item.id);
+    setRecruitName(item.name);
+    setRecruitSemester(item.semester);
+    setRecruitEpoch(item.epoch);
+    setRecruitDepartment(item.department);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleDeleteRecruit = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this recruit?")) return;
+    try {
+      await deleteDoc(doc(db, "recruitment", id));
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting recruit");
+    }
+  };
+
+  const handleAddEpoch = async () => {
+    if (!newEpochCode) return alert("Epoch code is required");
+    try {
+      await addDoc(collection(db, "recruitment-epochs"), { epoch: newEpochCode, label: newEpochLabel || `Epoch ${newEpochCode}` });
+      setNewEpochCode(""); setNewEpochLabel("");
+      fetchData();
+    } catch (err) { console.error(err); alert("Error creating epoch"); }
+  };
+
+  const handleDeleteEpoch = async (id: string) => {
+    if (!confirm("Delete this epoch?")) return;
+    try { await deleteDoc(doc(db, "recruitment-epochs", id)); fetchData(); }
+    catch (err) { console.error(err); alert("Error deleting epoch"); }
+  };
+
+  // IA Articles CRUD Handlers
+  const handleIaArticleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const articleData = {
+        title: iaTitle,
+        description: iaDesc,
+        author: iaAuthor,
+        chapters: iaChapters,
+        lastUpdated: new Date().toLocaleDateString("en-GB").replace(/\//g, "-"),
+      };
+      if (editingIaId) {
+        await updateDoc(doc(db, "ia-articles", editingIaId), articleData);
+        setEditingIaId(null);
+      } else {
+        await addDoc(collection(db, "ia-articles"), { ...articleData, articleId: Date.now() });
+      }
+      setIaTitle(""); setIaDesc(""); setIaAuthor(""); setIaChapters([]);
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      alert("Error saving IA article");
+    }
+  };
+
+  const handleEditIaArticle = (item: IAArticleItem) => {
+    setEditingIaId(item.id);
+    setIaTitle(item.title);
+    setIaDesc(item.description);
+    setIaAuthor(item.author);
+    setIaChapters(item.chapters || []);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleDeleteIaArticle = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this article?")) return;
+    try {
+      await deleteDoc(doc(db, "ia-articles", id));
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting IA article");
+    }
+  };
+
   if (loadingUser) {
     return (
       <main className="page-scroll">
@@ -677,7 +979,7 @@ export default function AdminDashboardPage() {
 
         {/* Tab Controls */}
         <div style={{ marginTop: "40px", pointerEvents: "auto", display: "flex", flexWrap: "wrap", gap: "10px", borderBottom: "1px solid var(--border-color)", paddingBottom: "16px" }}>
-          {(["gallery", "blogs", "events", "merchandise"] as const).map((tab) => (
+          {(["gallery", "blogs", "events", "merchandise", "projects", "team", "recruitment", "ia-articles"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => {
@@ -686,6 +988,10 @@ export default function AdminDashboardPage() {
                 setEditingBlogId(null);
                 setEditingEventId(null);
                 setEditingMerchId(null);
+                setEditingProjId(null);
+                setEditingMemberId(null);
+                setEditingRecruitId(null);
+                setEditingIaId(null);
               }}
               className="side-nav-link admin-tab-btn"
               style={{
@@ -736,11 +1042,15 @@ export default function AdminDashboardPage() {
                 {/* GALLERY FORM */}
                 {activeTab === "gallery" && (
                   <form onSubmit={handleGallerySubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                      <button type="button" onClick={() => setGalleryIsVideo(false)} style={{ flex: 1, padding: "8px", cursor: "pointer", background: !galleryIsVideo ? "var(--text-color)" : "transparent", color: !galleryIsVideo ? "var(--bg-color)" : "var(--text-color)", border: "1px solid var(--border-color)", borderRadius: "4px", fontFamily: "monospace", fontSize: "0.72rem", textTransform: "uppercase" }}>Image</button>
+                      <button type="button" onClick={() => setGalleryIsVideo(true)} style={{ flex: 1, padding: "8px", cursor: "pointer", background: galleryIsVideo ? "var(--text-color)" : "transparent", color: galleryIsVideo ? "var(--bg-color)" : "var(--text-color)", border: "1px solid var(--border-color)", borderRadius: "4px", fontFamily: "monospace", fontSize: "0.72rem", textTransform: "uppercase" }}>Video</button>
+                    </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Image File {editingGalleryId && "(Optional to replace)"}</label>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>{galleryIsVideo ? "Video" : "Image"} File {editingGalleryId && "(Optional to replace)"}</label>
                       <input 
                         type="file" 
-                        accept="image/*"
+                        accept={galleryIsVideo ? "video/*" : "image/*"}
                         onChange={e => setGalleryFile(e.target.files ? e.target.files[0] : null)}
                         style={{ color: "inherit", fontSize: "0.8rem" }}
                         required={!editingGalleryId}
@@ -769,10 +1079,10 @@ export default function AdminDashboardPage() {
                       />
                     </div>
                     <button type="submit" className="btn btn-primary" style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                      {editingGalleryId ? "Save Image" : "Upload Image"}
+                      {editingGalleryId ? "Save" : "Upload"} {galleryIsVideo ? "Video" : "Image"}
                     </button>
                     {editingGalleryId && (
-                      <button type="button" className="btn btn-ghost" onClick={() => { setEditingGalleryId(null); setGalleryAlt(""); setGalleryDesc(""); }} style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase" }}>Cancel</button>
+                      <button type="button" className="btn btn-ghost" onClick={() => { setEditingGalleryId(null); setGalleryAlt(""); setGalleryDesc(""); setGalleryIsVideo(false); }} style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase" }}>Cancel</button>
                     )}
                   </form>
                 )}
@@ -1093,6 +1403,181 @@ export default function AdminDashboardPage() {
                   </form>
                 )}
 
+                {/* PROJECTS FORM */}
+                {activeTab === "projects" && (
+                  <form onSubmit={handleProjectSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Project Title</label>
+                      <input type="text" placeholder="Solar Radio Telescope" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={projTitle} onChange={e => setProjTitle(e.target.value)} required />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Description</label>
+                      <textarea rows={3} placeholder="Project description..." style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }} value={projDesc} onChange={e => setProjDesc(e.target.value)} required />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Image URL (Optional)</label>
+                      <input type="text" placeholder="https://..." className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={projImage} onChange={e => setProjImage(e.target.value)} />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Link (Optional)</label>
+                      <input type="text" placeholder="https://github.com/..." className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={projLink} onChange={e => setProjLink(e.target.value)} />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Vertical</label>
+                      <select className="login-input" style={{ padding: "9px", background: "rgba(0,0,0,0.02)", color: "inherit" }} value={projVerticalSlug} onChange={e => setProjVerticalSlug(e.target.value)}>
+                        <option value="radio" style={{ color: "#000" }}>Radio Astronomy</option>
+                        <option value="data" style={{ color: "#000" }}>Data Driven Astronomy</option>
+                        <option value="optical" style={{ color: "#000" }}>Optical Astronomy</option>
+                        <option value="research" style={{ color: "#000" }}>Research</option>
+                      </select>
+                    </div>
+                    <div style={{ border: "1px solid var(--border-color)", padding: "16px", borderRadius: "4px", marginTop: "10px", background: "rgba(0,0,0,0.01)" }}>
+                      <h4 style={{ margin: "0 0 12px 0", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--text-color)" }}>Chapters ({projChapters.length})</h4>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px" }}>
+                        {projChapters.map((ch, idx) => (
+                          <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.03)", padding: "6px 10px", borderRadius: "3px", fontSize: "0.8rem" }}>
+                            <span>Ch {ch.id}: {ch.title}</span>
+                            <button type="button" onClick={() => { const updated = projChapters.filter((_, i) => i !== idx).map((c, i) => ({ ...c, id: i + 1 })); setProjChapters(updated); }} style={{ border: "none", background: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem" }}>Del</button>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1px solid var(--border-color)", paddingTop: "12px" }}>
+                        <input type="text" placeholder="Chapter Title" className="login-input" style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontSize: "0.8rem" }} id="projChTitle" />
+                        <textarea rows={4} placeholder="# Markdown\n\nContent..." style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "monospace", fontSize: "0.78rem" }} id="projChMd" />
+                        <button type="button" onClick={() => { const title = (document.getElementById("projChTitle") as HTMLInputElement)?.value; const md = (document.getElementById("projChMd") as HTMLTextAreaElement)?.value; if (!title) return; setProjChapters([...projChapters, { id: projChapters.length + 1, title, markdown: md }]); (document.getElementById("projChTitle") as HTMLInputElement).value = ""; (document.getElementById("projChMd") as HTMLTextAreaElement).value = ""; }} className="btn btn-ghost" style={{ padding: "8px 16px", fontSize: "0.75rem", alignSelf: "flex-start", cursor: "pointer" }}>+ Add Chapter</button>
+                      </div>
+                    </div>
+                    <button type="submit" className="btn btn-primary" style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.05em" }}>{editingProjId ? "Save Project" : "Create Project"}</button>
+                    {editingProjId && <button type="button" className="btn btn-ghost" onClick={() => { setEditingProjId(null); setProjTitle(""); setProjDesc(""); setProjImage(""); setProjLink(""); setProjVerticalSlug("radio"); setProjChapters([]); }} style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase" }}>Cancel</button>}
+                  </form>
+                )}
+
+                {/* TEAM FORM */}
+                {activeTab === "team" && (
+                  <form onSubmit={handleTeamSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Member Name</label>
+                      <input type="text" placeholder="Aryan" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={memberName} onChange={e => setMemberName(e.target.value)} required />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Role / Designation</label>
+                      <input type="text" placeholder="Team Captain" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={memberRole} onChange={e => setMemberRole(e.target.value)} required />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Batch</label>
+                      <select className="login-input" style={{ padding: "9px", background: "rgba(0,0,0,0.02)", color: "inherit" }} value={memberBatch} onChange={e => setMemberBatch(e.target.value)}>
+                        <option value="2024-core" style={{ color: "#000" }}>2024 Core Team</option>
+                        <option value="2024-semi" style={{ color: "#000" }}>2024 Semi-Core Team</option>
+                        <option value="2023-core" style={{ color: "#000" }}>2023 Core Team</option>
+                        <option value="faculty" style={{ color: "#000" }}>Faculty Advisors</option>
+                      </select>
+                    </div>
+                    <button type="submit" className="btn btn-primary" style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.05em" }}>{editingMemberId ? "Save Member" : "Add Member"}</button>
+                    {editingMemberId && <button type="button" className="btn btn-ghost" onClick={() => { setEditingMemberId(null); setMemberName(""); setMemberRole(""); setMemberBatch("2024-core"); }} style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase" }}>Cancel</button>}
+                  </form>
+                )}
+
+                {/* RECRUITMENT FORM */}
+                {activeTab === "recruitment" && (
+                  <form onSubmit={handleRecruitSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Candidate Name</label>
+                      <input type="text" placeholder="Mahathi" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={recruitName} onChange={e => setRecruitName(e.target.value)} required />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Semester</label>
+                      <input type="text" placeholder="1st Semester" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={recruitSemester} onChange={e => setRecruitSemester(e.target.value)} required />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Epoch</label>
+                      <select className="login-input" style={{ padding: "9px", background: "rgba(0,0,0,0.02)", color: "inherit" }} value={recruitEpoch} onChange={e => setRecruitEpoch(e.target.value)}>
+                        {[...Object.keys(RECRUITMENT_DATA), ...recruitEpochs.map(e => e.epoch)]
+                          .filter((v, i, a) => a.indexOf(v) === i)
+                          .map(ep => (
+                            <option key={ep} value={ep} style={{ color: "#000" }}>{ep}</option>
+                          ))}
+                      </select>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Department</label>
+                      <select className="login-input" style={{ padding: "9px", background: "rgba(0,0,0,0.02)", color: "inherit" }} value={recruitDepartment} onChange={e => setRecruitDepartment(e.target.value)}>
+                        <option value="ae" style={{ color: "#000" }}>Aerospace Engineering</option>
+                        <option value="ai" style={{ color: "#000" }}>Artificial Intelligence</option>
+                        <option value="bt" style={{ color: "#000" }}>Biotechnology</option>
+                        <option value="cd" style={{ color: "#000" }}>Computer Science (Data Science)</option>
+                        <option value="cy" style={{ color: "#000" }}>Computer Science (Cyber Security)</option>
+                        <option value="cs" style={{ color: "#000" }}>Computer Science</option>
+                        <option value="ch" style={{ color: "#000" }}>Chemical Engineering</option>
+                        <option value="cv" style={{ color: "#000" }}>Civil Engineering</option>
+                        <option value="ec" style={{ color: "#000" }}>Electronics and Communication</option>
+                        <option value="ee" style={{ color: "#000" }}>Electrical and Electronics</option>
+                        <option value="et" style={{ color: "#000" }}>Electronics and Telecommunication</option>
+                        <option value="im" style={{ color: "#000" }}>Industrial Engineering and Management</option>
+                        <option value="is" style={{ color: "#000" }}>Information Science</option>
+                        <option value="me" style={{ color: "#000" }}>Mechanical Engineering</option>
+                      </select>
+                    </div>
+                    <button type="submit" className="btn btn-primary" style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.05em" }}>{editingRecruitId ? "Save Recruit" : "Add Recruit"}</button>
+                    {editingRecruitId && <button type="button" className="btn btn-ghost" onClick={() => { setEditingRecruitId(null); setRecruitName(""); setRecruitSemester(""); setRecruitEpoch("J2024.7"); setRecruitDepartment("cs"); }} style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase" }}>Cancel</button>}
+                  </form>
+                )}
+
+                {/* Epoch Manager inside recruitment card */}
+                {activeTab === "recruitment" && (
+                  <div style={{ marginTop: "20px", borderTop: "1px solid var(--border-color)", paddingTop: "16px" }}>
+                    <h4 style={{ margin: "0 0 12px 0", fontSize: "0.8rem", textTransform: "uppercase" }}>Manage Epochs</h4>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "12px" }}>
+                      {recruitEpochs.map(ep => (
+                        <div key={ep.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 10px", background: "rgba(0,0,0,0.03)", borderRadius: "3px", fontSize: "0.8rem" }}>
+                          <span><strong>{ep.epoch}</strong> — {ep.label}</span>
+                          <button onClick={() => handleDeleteEpoch(ep.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "rgba(220,38,38,0.85)", fontSize: "0.75rem" }}>Delete</button>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ display: "flex", gap: "8px", alignItems: "end" }}>
+                      <input type="text" placeholder="Epoch code (e.g. J2027.10)" className="login-input" style={{ flex: 1, padding: "8px", fontSize: "0.8rem" }} value={newEpochCode} onChange={e => setNewEpochCode(e.target.value)} />
+                      <input type="text" placeholder="Label (e.g. Epoch J2027.10)" className="login-input" style={{ flex: 1, padding: "8px", fontSize: "0.8rem" }} value={newEpochLabel} onChange={e => setNewEpochLabel(e.target.value)} />
+                      <button type="button" onClick={handleAddEpoch} className="btn btn-ghost" style={{ padding: "8px 16px", fontSize: "0.75rem", cursor: "pointer", whiteSpace: "nowrap" }}>Add Epoch</button>
+                    </div>
+                  </div>
+                )}
+
+                {/* IA ARTICLES FORM */}
+                {activeTab === "ia-articles" && (
+                  <form onSubmit={handleIaArticleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Article Title</label>
+                      <input type="text" placeholder="Nakshatra" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={iaTitle} onChange={e => setIaTitle(e.target.value)} required />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Description</label>
+                      <textarea rows={3} placeholder="Article summary..." style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "inherit", fontSize: "0.85rem" }} value={iaDesc} onChange={e => setIaDesc(e.target.value)} required />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontSize: "0.68rem", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.05em" }}>Author</label>
+                      <input type="text" placeholder="Pranati Rao, Nithyashree S | Editor: Deepthi Prasad" className="login-input" style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit" }} value={iaAuthor} onChange={e => setIaAuthor(e.target.value)} required />
+                    </div>
+                    <div style={{ border: "1px solid var(--border-color)", padding: "16px", borderRadius: "4px", marginTop: "10px", background: "rgba(0,0,0,0.01)" }}>
+                      <h4 style={{ margin: "0 0 12px 0", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--text-color)" }}>Chapters ({iaChapters.length})</h4>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px" }}>
+                        {iaChapters.map((ch, idx) => (
+                          <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.03)", padding: "6px 10px", borderRadius: "3px", fontSize: "0.8rem" }}>
+                            <span>Ch {ch.id}: {ch.title}</span>
+                            <button type="button" onClick={() => { const updated = iaChapters.filter((_, i) => i !== idx).map((c, i) => ({ ...c, id: i + 1 })); setIaChapters(updated); }} style={{ border: "none", background: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem" }}>Del</button>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1px solid var(--border-color)", paddingTop: "12px" }}>
+                        <input type="text" placeholder="Chapter Title" className="login-input" style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontSize: "0.8rem" }} id="iaChTitle" />
+                        <textarea rows={4} placeholder="# Markdown\n\nContent..." style={{ width: "100%", padding: "8px", background: "rgba(0,0,0,0.02)", border: "1px solid var(--border-color)", borderRadius: "4px", color: "inherit", fontFamily: "monospace", fontSize: "0.78rem" }} id="iaChMd" />
+                        <button type="button" onClick={() => { const title = (document.getElementById("iaChTitle") as HTMLInputElement)?.value; const md = (document.getElementById("iaChMd") as HTMLTextAreaElement)?.value; if (!title) return; setIaChapters([...iaChapters, { id: iaChapters.length + 1, title, markdown: md }]); (document.getElementById("iaChTitle") as HTMLInputElement).value = ""; (document.getElementById("iaChMd") as HTMLTextAreaElement).value = ""; }} className="btn btn-ghost" style={{ padding: "8px 16px", fontSize: "0.75rem", alignSelf: "flex-start", cursor: "pointer" }}>+ Add Chapter</button>
+                      </div>
+                    </div>
+                    <button type="submit" className="btn btn-primary" style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.05em" }}>{editingIaId ? "Save Article" : "Create Article"}</button>
+                    {editingIaId && <button type="button" className="btn btn-ghost" onClick={() => { setEditingIaId(null); setIaTitle(""); setIaDesc(""); setIaAuthor(""); setIaChapters([]); }} style={{ cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase" }}>Cancel</button>}
+                  </form>
+                )}
+
               </div>
             </div>
           </div>
@@ -1177,6 +1662,93 @@ export default function AdminDashboardPage() {
                         <button onClick={() => handleEditMerch(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", textDecoration: "underline", fontSize: "0.75rem", padding: 0 }}>Edit</button>
                         <button onClick={() => handleDeleteMerch(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem", padding: 0 }}>Delete</button>
                       </div>
+                    </div>
+                  </div>
+                ))}
+
+                {/* PROJECTS LIST */}
+                {activeTab === "projects" && projects.length === 0 && (
+                  <p style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>No projects in database. Fallback content is active.</p>
+                )}
+                {activeTab === "projects" && projects.map((item) => (
+                  <div key={item.id} className="vertical-project-card" style={{ padding: "16px" }}>
+                    <span style={{ fontSize: "0.62rem", textTransform: "uppercase", background: "rgba(113,113,122,0.1)", color: "var(--text-muted)", padding: "2px 6px", borderRadius: "2px" }}>{item.verticalSlug}</span>
+                    <h4 style={{ margin: "8px 0 4px 0", fontSize: "1rem", fontWeight: 600 }}>{item.title}</h4>
+                    <p style={{ margin: "0 0 8px 0", fontSize: "0.75rem", color: "var(--text-muted)" }}>{item.chapters?.length || 0} chapters</p>
+                    <p style={{ margin: "0 0 12px 0", fontSize: "0.8rem" }}>{item.description.substring(0, 100)}</p>
+                    <div style={{ display: "flex", gap: "16px" }}>
+                      <button onClick={() => handleEditProject(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", textDecoration: "underline", fontSize: "0.75rem", padding: 0 }}>Edit</button>
+                      <button onClick={() => handleDeleteProject(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem", padding: 0 }}>Delete</button>
+                    </div>
+                  </div>
+                ))}
+                {activeTab === "projects" && (
+                  <details style={{ marginTop: "16px" }}>
+                    <summary style={{ fontSize: "0.75rem", color: "var(--text-muted)", cursor: "pointer", fontFamily: "monospace" }}>Show static projects (create Firestore override to edit)</summary>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "12px" }}>
+                      {VERTICALS.flatMap(v => (v.projects || []).map(p => ({ ...p, verticalSlug: v.slug }))).map((item, i) => {
+                        const isOverridden = projects.some(fp => fp.title.toLowerCase() === item.title.toLowerCase());
+                        return (
+                          <div key={i} className="vertical-project-card" style={{ padding: "10px", opacity: isOverridden ? 0.4 : 0.7, borderLeft: isOverridden ? "2px solid #22c55e" : "2px solid transparent" }}>
+                            <span style={{ fontSize: "0.6rem", textTransform: "uppercase", background: "rgba(113,113,122,0.1)", color: "var(--text-muted)", padding: "2px 6px", borderRadius: "2px" }}>{item.verticalSlug}</span>
+                            <h4 style={{ margin: "4px 0 2px 0", fontSize: "0.85rem", fontWeight: 500 }}>{item.title}</h4>
+                            <p style={{ margin: 0, fontSize: "0.7rem", color: "var(--text-muted)" }}>{item.description.substring(0, 80)} · <span style={{ fontFamily: "monospace" }}>{item.link ? "→ link" : "no link"}</span></p>
+                            {isOverridden && <p style={{ margin: "4px 0 0 0", fontSize: "0.65rem", color: "#22c55e", fontFamily: "monospace" }}>OVERRIDDEN by Firestore</p>}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </details>
+                )}
+
+                {/* TEAM LIST */}
+                {activeTab === "team" && teamMembers.length === 0 && (
+                  <p style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>No team members in database. Fallback content is active.</p>
+                )}
+                {activeTab === "team" && teamMembers.map((item) => (
+                  <div key={item.id} className="vertical-project-card" style={{ display: "flex", flexDirection: "row", gap: "16px", padding: "12px", alignItems: "center" }}>
+                    <div style={{ flex: 1 }}>
+                      <span style={{ fontSize: "0.62rem", textTransform: "uppercase", background: "rgba(113,113,122,0.1)", color: "var(--text-muted)", padding: "2px 6px", borderRadius: "2px" }}>{item.batch}</span>
+                      <h4 style={{ margin: "4px 0 2px 0", fontSize: "0.95rem", fontWeight: 600 }}>{item.name}</h4>
+                      <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--text-muted)" }}>{item.role}</p>
+                    </div>
+                    <div style={{ display: "flex", gap: "12px" }}>
+                      <button onClick={() => handleEditTeamMember(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", textDecoration: "underline", fontSize: "0.75rem", padding: 0 }}>Edit</button>
+                      <button onClick={() => handleDeleteTeamMember(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem", padding: 0 }}>Delete</button>
+                    </div>
+                  </div>
+                ))}
+
+                {/* RECRUITMENT LIST */}
+                {activeTab === "recruitment" && recruits.length === 0 && (
+                  <p style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>No recruits in database. Fallback content is active.</p>
+                )}
+                {activeTab === "recruitment" && recruits.map((item) => (
+                  <div key={item.id} className="vertical-project-card" style={{ display: "flex", flexDirection: "row", gap: "16px", padding: "12px", alignItems: "center" }}>
+                    <div style={{ flex: 1 }}>
+                      <span style={{ fontSize: "0.62rem", textTransform: "uppercase", background: "rgba(113,113,122,0.1)", color: "var(--text-muted)", padding: "2px 6px", borderRadius: "2px" }}>{item.epoch} · {item.department}</span>
+                      <h4 style={{ margin: "4px 0 2px 0", fontSize: "0.95rem", fontWeight: 600 }}>{item.name}</h4>
+                      <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--text-muted)" }}>{item.semester}</p>
+                    </div>
+                    <div style={{ display: "flex", gap: "12px" }}>
+                      <button onClick={() => handleEditRecruit(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", textDecoration: "underline", fontSize: "0.75rem", padding: 0 }}>Edit</button>
+                      <button onClick={() => handleDeleteRecruit(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem", padding: 0 }}>Delete</button>
+                    </div>
+                  </div>
+                ))}
+
+                {/* IA ARTICLES LIST */}
+                {activeTab === "ia-articles" && iaArticles.length === 0 && (
+                  <p style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>No IA articles in database. Fallback content is active.</p>
+                )}
+                {activeTab === "ia-articles" && iaArticles.map((item) => (
+                  <div key={item.id} className="vertical-project-card" style={{ padding: "16px" }}>
+                    <h4 style={{ margin: "0 0 4px 0", fontSize: "1rem", fontWeight: 600 }}>{item.title}</h4>
+                    <p style={{ margin: "0 0 8px 0", fontSize: "0.75rem", color: "var(--text-muted)" }}>By {item.author} · {item.chapters?.length || 0} chapters · Updated {item.lastUpdated}</p>
+                    <p style={{ margin: "0 0 12px 0", fontSize: "0.8rem" }}>{item.description.substring(0, 100)}</p>
+                    <div style={{ display: "flex", gap: "16px" }}>
+                      <button onClick={() => handleEditIaArticle(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", textDecoration: "underline", fontSize: "0.75rem", padding: 0 }}>Edit</button>
+                      <button onClick={() => handleDeleteIaArticle(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem", padding: 0 }}>Delete</button>
                     </div>
                   </div>
                 ))}

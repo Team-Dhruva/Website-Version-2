@@ -1,14 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { RECRUITMENT_DATA, DEPARTMENTS } from "../data/recruitmentData";
+import { RECRUITMENT_DATA, DEPARTMENTS, EpochData } from "../data/recruitmentData";
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
 import Breadcrumbs from "../components/Breadcrumbs";
 import SiteFooter from "../components/SiteFooter";
 
-
-
-
-
-
+interface FireRecruit {
+  id: string;
+  name: string;
+  semester: string;
+  epoch: string;
+  department: string;
+}
 
 export default function RecruitmentBatchPage() {
   const { epoch } = useParams<{ epoch: string }>();
@@ -16,9 +20,69 @@ export default function RecruitmentBatchPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
 
-  // Get active epoch data
   const epochId = epoch || "J2024.7";
-  const epochData = RECRUITMENT_DATA[epochId];
+  const [fireRecruits, setFireRecruits] = useState<FireRecruit[]>([]);
+  const [fireEpochs, setFireEpochs] = useState<{epoch: string; label: string}[]>([]);
+  const [epochData, setEpochData] = useState(RECRUITMENT_DATA[epochId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const snap = await getDocs(collection(db, "recruitment"));
+        const list: FireRecruit[] = [];
+        snap.forEach((docSnap) => {
+          list.push({ id: docSnap.id, ...docSnap.data() } as FireRecruit);
+        });
+        setFireRecruits(list);
+      } catch (err) {
+        console.error("Error fetching recruits:", err);
+      }
+      try {
+        const epochSnap = await getDocs(collection(db, "recruitment-epochs"));
+        const epochList: {epoch: string; label: string}[] = [];
+        epochSnap.forEach(docSnap => {
+          const d = docSnap.data() as any;
+          epochList.push({ epoch: d.epoch, label: d.label });
+        });
+        setFireEpochs(epochList);
+      } catch (err) {
+        console.error("Error fetching epochs:", err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const staticData = RECRUITMENT_DATA[epochId];
+    if (staticData) {
+      const merged = JSON.parse(JSON.stringify(staticData));
+      fireRecruits.filter(r => r.epoch === epochId).forEach((r) => {
+        if (!merged.recruits[r.department]) {
+          merged.recruits[r.department] = [];
+        }
+        merged.recruits[r.department].push({ name: r.name, semester: r.semester });
+      });
+      setEpochData(merged);
+    } else {
+      const matched = fireRecruits.filter(r => r.epoch === epochId);
+      if (matched.length > 0 || fireEpochs.some(e => e.epoch === epochId)) {
+        const dynamic: EpochData = {
+          epoch: epochId,
+          label: fireEpochs.find(e => e.epoch === epochId)?.label || `Epoch ${epochId}`,
+          recruits: {}
+        };
+        matched.forEach((r) => {
+          if (!dynamic.recruits[r.department]) {
+            dynamic.recruits[r.department] = [];
+          }
+          dynamic.recruits[r.department].push({ name: r.name, semester: r.semester });
+        });
+        setEpochData(dynamic);
+      } else {
+        setEpochData(undefined as any);
+      }
+    }
+  }, [epochId, fireRecruits, fireEpochs]);
 
   // Match the header padding and title font size logic from vertical page
   useEffect(() => {
@@ -87,6 +151,7 @@ export default function RecruitmentBatchPage() {
       resizeObserver.disconnect();
     };
   }, [epochId, epochData]);
+
   if (!epochData) {
     return (
       <main className="page-scroll">
