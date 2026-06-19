@@ -1650,10 +1650,10 @@ html,body {
 }
 
 .gallery-overlay-alt {
-  font-family: 'DM Mono', monospace;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.7rem;
   font-weight: 400;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   color: rgba(255, 255, 255, 0.95);
   margin-bottom: 4px;
   line-height: 1.3;
@@ -2307,10 +2307,10 @@ html,body {
 }
 
 .gallery-lightbox-alt {
-  font-family: 'DM Mono', monospace;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.8rem;
   font-weight: 400;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   color: rgba(255, 255, 255, 0.95);
 }
 
