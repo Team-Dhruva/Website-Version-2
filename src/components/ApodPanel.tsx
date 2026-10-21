@@ -10,7 +10,7 @@ interface ApodData {
   copyright?: string;
 }
 
-const API_KEY = "CXw8rZkaGYCA4JnlE3jLB87C8de6uOcmcEGmnFc1";
+const API_KEY = "Cdjb9HGn6mTfwzhNrK8LGpPrMdmGQP6crJHDLtKr";
 
 function formatDate(d: Date): string {
   const y = d.getFullYear();
